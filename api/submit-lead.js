@@ -145,7 +145,7 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
       email,
       phone,
       address,
-      'Google Ads',
+      leadSource,
       'New Lead',
       new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' }),
       propertyType || '',
@@ -177,8 +177,9 @@ module.exports = async function handler(req, res) {
   const body = req.body || {};
 
   const fullName = (body.fullName || `${body.firstName || ''} ${body.lastName || ''}`.trim()).trim();
-  const { email, phone, propertyAddress, address, propertyType } = body;
+  const { email, phone, propertyAddress, address, propertyType, source } = body;
   const cleanAddress = (propertyAddress || address || '').trim();
+  const leadSource = source || 'Google Ads';
   const timestamp = new Date().toISOString();
 
   console.log(`[submit-lead] ${timestamp} — Incoming lead:`, {
@@ -187,6 +188,7 @@ module.exports = async function handler(req, res) {
     phone,
     address: cleanAddress || '(none)',
     propertyType: propertyType || '(none)',
+    source: leadSource,
   });
 
   if (!fullName) {

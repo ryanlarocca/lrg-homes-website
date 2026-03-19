@@ -1,0 +1,210 @@
+[lead-webhook] Running on port 3002
+[lead-webhook] POST http://localhost:3002/lead
+[2026-03-18T18:02:42.884Z] New lead: {
+  fullName: 'Test Lead',
+  phone: '4085551234',
+  email: 'ryan@lrghomes.com',
+  address: '123 Main St, San Jose CA',
+  propertyType: undefined
+}
+[2026-03-18T18:02:42.884Z] SMS sent via Google Voice
+[2026-03-18T18:02:47.806Z] New lead: {
+  fullName: 'Test Lead 2',
+  phone: '4085551234',
+  email: 'ryan@lrghomes.com',
+  address: '123 Main St, San Jose CA',
+  propertyType: undefined
+}
+[2026-03-18T18:02:47.806Z] SMS sent via Google Voice
+[lead-webhook] Running on port 3002
+[lead-webhook] POST http://localhost:3002/lead
+[2026-03-18T18:03:11.976Z] New lead: {
+  fullName: 'Final Test',
+  phone: '4085551234',
+  email: 'ryan@lrghomes.com',
+  address: '123 Main St, San Jose CA',
+  propertyType: undefined
+}
+[2026-03-18T18:03:11.976Z] SMS sent via Google Voice
+[2026-03-18T18:03:11.976Z] Sheet logged OK
+[2026-03-18T18:03:11.976Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:07:27.697Z] New lead: {
+  fullName: 'NEW2',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T18:07:27.697Z] SMS sent via Google Voice
+[2026-03-18T18:07:27.697Z] Sheet logged OK
+[2026-03-18T18:07:27.697Z] Confirmation email sent to ryan@lrghomes.com
+[lead-webhook] Running on port 3002
+[lead-webhook] POST http://localhost:3002/lead
+[2026-03-18T18:13:15.905Z] New lead: {
+  fullName: 'Ryan Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 Ross Park Ct',
+  propertyType: undefined
+}
+[2026-03-18T18:13:15.905Z] SMS sent via Google Voice
+[2026-03-18T18:13:15.905Z] Sheet logged OK
+[2026-03-18T18:13:15.905Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:13:15.905Z] Lead SMS sent to +14085006293
+[lead-webhook] Running on port 3002
+[lead-webhook] POST http://localhost:3002/lead
+[2026-03-18T18:18:58.690Z] New lead: {
+  fullName: 'Ryan Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 Ross Park Ct',
+  propertyType: undefined
+}
+[2026-03-18T18:18:58.690Z] SMS sent via Google Voice
+[2026-03-18T18:18:58.690Z] Sheet logged OK
+[2026-03-18T18:18:58.690Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:18:58.690Z] Lead SMS sent to +14085006293
+[2026-03-18T18:23:48.088Z] New lead: {
+  fullName: 'Form Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '123 Test St',
+  propertyType: ''
+}
+[2026-03-18T18:23:48.088Z] SMS sent via Google Voice
+[2026-03-18T18:23:48.088Z] Sheet logged OK
+[2026-03-18T18:23:48.088Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:23:48.088Z] Lead SMS sent to +14085006293
+[2026-03-18T18:24:05.687Z] New lead: {
+  fullName: 'Debug Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '123 Test St',
+  propertyType: ''
+}
+[2026-03-18T18:24:05.687Z] SMS sent via Google Voice
+[2026-03-18T18:24:05.687Z] Sheet logged OK
+[2026-03-18T18:24:05.687Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:24:05.687Z] Lead SMS sent to +14085006293
+[2026-03-18T18:25:05.913Z] New lead: {
+  fullName: 'NEW3',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T18:25:05.913Z] SMS sent via Google Voice
+[2026-03-18T18:25:05.913Z] Sheet logged OK
+[2026-03-18T18:25:05.913Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:25:05.913Z] Lead SMS sent to +14085006293
+[2026-03-18T18:26:13.806Z] New lead: {
+  fullName: 'NEW4',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T18:26:13.806Z] SMS sent via Google Voice
+[2026-03-18T18:26:13.806Z] Sheet logged OK
+[2026-03-18T18:26:13.806Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:26:13.806Z] Lead SMS sent to +14085006293
+[2026-03-18T18:59:26.081Z] New lead: {
+  fullName: 'SMS Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '123 Test St',
+  propertyType: undefined
+}
+[2026-03-18T18:59:26.081Z] SMS sent via Google Voice
+[2026-03-18T18:59:26.081Z] Sheet logged OK
+[2026-03-18T18:59:26.081Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T18:59:26.081Z] Lead SMS sent to +14085006293
+[2026-03-18T19:00:38.633Z] New lead: {
+  fullName: 'Final Test',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '123 Test St',
+  propertyType: ''
+}
+[2026-03-18T19:00:38.633Z] SMS sent via Google Voice
+[2026-03-18T19:00:38.633Z] Sheet logged OK
+[2026-03-18T19:00:38.633Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T19:00:38.633Z] Lead SMS sent to +14085006293
+[2026-03-18T19:01:43.285Z] New lead: {
+  fullName: 'NEW11',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T19:01:43.285Z] SMS sent via Google Voice
+[2026-03-18T19:01:43.285Z] Sheet logged OK
+[2026-03-18T19:01:43.285Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T19:01:43.285Z] Lead SMS sent to +14085006293
+[2026-03-18T19:02:47.587Z] New lead: {
+  fullName: 'new12',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T19:02:47.587Z] SMS sent via Google Voice
+[2026-03-18T19:02:47.587Z] Sheet logged OK
+[2026-03-18T19:02:47.587Z] Confirmation email sent to ryan@lrghomes.com
+[2026-03-18T19:02:47.587Z] Lead SMS sent to +14085006293
+[lead-webhook] Running on port 3002
+[lead-webhook] POST http://localhost:3002/lead
+[2026-03-18T19:05:11.036Z] New lead: {
+  fullName: 'new13',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T19:05:11.036Z] SMS sent via Google Voice
+[2026-03-18T19:05:11.036Z] Sheet logged OK
+[2026-03-18T19:05:11.036Z] Lead SMS sent to +14085006293
+[2026-03-18T19:05:43.380Z] New lead: {
+  fullName: 'NEW14',
+  phone: '4085006293',
+  email: 'ryan@lrghomes.com',
+  address: '4032 ross park ct',
+  propertyType: ''
+}
+[2026-03-18T19:05:43.380Z] SMS sent via Google Voice
+[2026-03-18T19:05:43.380Z] Sheet logged OK
+[2026-03-18T19:05:43.380Z] Lead SMS sent to +14085006293
+[lead-webhook] Running on port 3002 — SMS only
+[2026-03-18T19:07:09.130Z] New lead (SMS only): { fullName: 'Dupe Test', phone: '4085006293' }
+[2026-03-18T19:07:09.130Z] SMS to Ryan sent
+[2026-03-18T19:07:09.130Z] SMS to lead sent
+[2026-03-18T19:07:41.347Z] New lead (SMS only): { fullName: 'NEW16', phone: '4085006293' }
+[2026-03-18T19:07:41.347Z] SMS to Ryan sent
+[2026-03-18T19:07:41.347Z] SMS to lead sent
+[2026-03-18T19:08:34.185Z] New lead (SMS only): { fullName: 'NEW17', phone: '4085006293' }
+[2026-03-18T19:08:34.185Z] SMS to Ryan sent
+[2026-03-18T19:08:34.185Z] SMS to lead sent
+[2026-03-18T19:11:48.339Z] New lead (SMS only): { fullName: 'new18', phone: '4085006293' }
+[2026-03-18T19:11:48.339Z] SMS to Ryan sent
+[2026-03-18T19:11:48.339Z] SMS to lead sent
+[2026-03-18T19:12:55.004Z] New lead (SMS only): { fullName: 'NEW19', phone: '4085006293' }
+[2026-03-18T19:12:55.004Z] SMS to Ryan sent
+[2026-03-18T19:12:55.004Z] SMS to lead sent
+[2026-03-18T21:52:20.328Z] New lead (SMS only): { fullName: 'New22', phone: '4085006293' }
+[2026-03-18T21:52:20.328Z] SMS to Ryan sent
+[2026-03-18T21:52:20.328Z] SMS to lead sent
+[2026-03-19T03:15:35.069Z] New lead (SMS only): { fullName: 'new99', phone: '4085006293' }
+[2026-03-19T03:15:35.069Z] SMS to Ryan sent
+[2026-03-19T03:15:35.069Z] SMS to lead sent
+[2026-03-19T03:19:39.399Z] New lead (SMS only): { fullName: 'ryan larocca', phone: '4085006293' }
+[2026-03-19T03:19:39.399Z] SMS to Ryan sent
+[2026-03-19T03:19:39.399Z] SMS to lead sent
+[2026-03-19T03:22:37.476Z] New lead (SMS only): { fullName: 'ryan larocca', phone: '4085006293' }
+[2026-03-19T03:22:37.476Z] SMS to Ryan sent
+[2026-03-19T03:22:37.476Z] SMS to lead sent
+[2026-03-19T17:43:13.125Z] New lead (SMS only): { fullName: 'Test Lead', phone: '4084930633' }
+[2026-03-19T17:43:13.125Z] SMS to Ryan sent
+[2026-03-19T17:43:13.125Z] SMS to lead sent
+[2026-03-19T17:43:47.979Z] New lead (SMS only): { fullName: 'John Smith', phone: '4085555555' }
+[2026-03-19T17:43:47.979Z] SMS to Ryan sent
+[2026-03-19T17:43:47.979Z] SMS to lead sent
