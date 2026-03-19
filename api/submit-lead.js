@@ -126,7 +126,7 @@ async function sendEmail({ to, subject, textBody }) {
 
 // ─── Google Sheets API (OAuth2) ───────────────────────────────────────────────
 
-async function logToSheets({ timestamp, fullName, email, phone, address, propertyType }) {
+async function logToSheets({ timestamp, fullName, email, phone, address, propertyType, source }) {
   const sheetId = process.env.LEAD_SHEET_ID;
   const sheetTab = process.env.LEAD_SHEET_TAB || 'Google Ads';
 
@@ -145,7 +145,7 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
       email,
       phone,
       address,
-      leadSource,
+      source || 'Google Ads',
       'New Lead',
       new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' }),
       propertyType || '',
@@ -260,6 +260,7 @@ module.exports = async function handler(req, res) {
     phone: cleanPhone,
     address: cleanAddress,
     propertyType: propertyType || '',
+    source: leadSource,
   }).catch((err) => {
     console.error('[submit-lead] Sheets log error:', err.message);
     return false;
