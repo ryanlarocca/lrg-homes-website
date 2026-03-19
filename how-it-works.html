@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - LRG Homes | Sell Your Home Fast for Cash</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fff;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5a7b 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background-color: #ff6b35;
+            color: white;
+            padding: 16px 40px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hero-cta:hover {
+            background-color: #e55a24;
+            transform: translateY(-2px);
+        }
+
+        /* Steps Section */
+        .steps-section {
+            padding: 80px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .steps-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: #1a3a52;
+            font-weight: 700;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .step {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: #ff6b35;
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .step h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #1a3a52;
+        }
+
+        .step p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        /* Why Choose Section */
+        .why-section {
+            padding: 80px 20px;
+            background-color: white;
+        }
+
+        .why-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .benefit {
+            padding: 30px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #ff6b35;
+            border-radius: 4px;
+        }
+
+        .benefit-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a3a52;
+            margin-bottom: 10px;
+        }
+
+        .benefit p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .checkmark {
+            color: #ff6b35;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 20px;
+            background-color: #f8f9fa;
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-question {
+            padding: 25px;
+            background-color: #f8f9fa;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1a3a52;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background-color: #efefef;
+        }
+
+        .faq-toggle {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 25px;
+            color: #666;
+            display: none;
+            border-top: 1px solid #eee;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5a7b 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cta-btn {
+            padding: 16px 35px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-primary {
+            background-color: #ff6b35;
+            color: white;
+        }
+
+        .cta-primary:hover {
+            background-color: #e55a24;
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .contact-info a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Utility */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1>Sell Your Home in 5 Easy Steps</h1>
+            <p>Get a cash offer in 24 hours. No repairs. No realtor fees. Close on your timeline.</p>
+            <button class="hero-cta" onclick="scrollToContact()">Get Your Free Cash Offer</button>
+        </div>
+    </section>
+
+    <!-- Steps Section -->
+    <section class="steps-section">
+        <div class="steps-container">
+            <h2 class="section-title">Our Simple Process</h2>
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📞</div>
+                    <h3>Reach Out</h3>
+                    <p>Contact us by phone, email, or our online form. Tell us about your property and why you're selling. It takes just 5 minutes.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">🏠</div>
+                    <h3>Property Evaluation</h3>
+                    <p>We'll schedule a time to visit your home (at your convenience). We inspect the property, assess the condition, and evaluate the market.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">💰</div>
+                    <h3>Cash Offer</h3>
+                    <p>Within 24 hours, we present a fair, all-cash offer—no hidden fees, no contingencies. What you see is what you get.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">✅</div>
+                    <h3>Accept or Negotiate</h3>
+                    <p>Review our offer. Accept as-is, negotiate if you'd like, or decline. No pressure. We're confident you'll love what we propose.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">5</div>
+                    <div class="step-icon">🔑</div>
+                    <h3>Fast Close</h3>
+                    <p>Close as quickly as 5-7 days or take longer—whatever works for you. All-cash means no mortgage delays or financing surprises.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">6</div>
+                    <div class="step-icon">💳</div>
+                    <h3>Get Your Cash</h3>
+                    <p>Funds transfer at closing. You walk away with money in the bank, no hassles, no headaches. Simple as that.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why LRG Homes Section -->
+    <section class="why-section">
+        <div class="why-container">
+            <h2 class="section-title">Why Choose LRG Homes?</h2>
+            <div class="why-grid">
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>Fast Cash Offer</div>
+                    <p>Get a real, competitive offer in just 24 hours. No waiting weeks for appraisals or inspections.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>Buy As-Is</div>
+                    <p>Sell your home in any condition. We handle repairs, renovations, and updates. No out-of-pocket expenses for you.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>No Realtor Fees</div>
+                    <p>Skip the 5-6% commission. Keep more of your money. Direct transaction = more cash in your pocket.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>Flexible Timeline</div>
+                    <p>Close in 5 days or 5 months. You're in control. We work around your schedule and needs.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>All-Cash Buyer</div>
+                    <p>No financing contingencies. No appraisal delays. No lender complications. You get certainty and speed.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-title"><span class="checkmark">✓</span>Transparent Process</div>
+                    <p>No hidden fees, no surprises. We're upfront about everything from day one. Fair offers, professional service.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>How long does the entire process take?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We can get you an offer in 24 hours. Closing typically happens in 5-30 days, depending on your preference. If you need more time to relocate or settle other matters, we're happy to work with you. You're always in control of the timeline.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What types of properties do you buy?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We buy single-family homes, multi-family properties, investment homes, distressed properties, inherited homes, and probate sales. Whether your home needs work or is in perfect condition, we're interested. If it's in the Bay Area, we likely can help.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What areas do you service?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We operate throughout the South Bay and Peninsula in the San Francisco Bay Area, including San Jose, San Mateo, Palo Alto, Sunnyvale, Cupertino, and surrounding communities. Contact us to confirm we serve your area.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Do I have to make repairs before selling?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    No repairs needed. We buy homes as-is. Whether your home has cosmetic wear, structural issues, or needs major updates, we'll handle it. You save the time, money, and stress of renovations.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>How do you determine your offer price?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We analyze comparable sales, the property's condition, market trends, and closing costs. Our offer reflects fair market value minus any repairs we'll need to make. We're transparent about our offer and happy to explain our reasoning.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>Are there any hidden fees or surprises?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    No. Our offer is all-in. No hidden fees, no surprise costs at closing. What we quote is what you get. We handle all closing costs. Total transparency is part of our promise.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>What if I need to stay in the home after selling?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    We can work with you on a rent-back arrangement. You can stay in your home after closing and pay rent until you're ready to leave. Let us know your needs, and we'll find a solution.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    <span>How do I get started?</span>
+                    <span class="faq-toggle">▼</span>
+                </div>
+                <div class="faq-answer">
+                    It's easy! Call us, email us, or fill out our online form. Tell us about your property, and we'll schedule a property evaluation at your convenience. From there, we'll get you an offer within 24 hours. No obligation.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="cta-container">
+            <h2>Ready to Sell? Let's Talk.</h2>
+            <p>Get a competitive, all-cash offer for your home today. No repairs, no realtor fees, no hassle.</p>
+            <div class="cta-buttons">
+                <a href="tel:+14084930632" class="cta-btn cta-primary">Call Us: (408) 493-0632</a>
+                <a href="mailto:info@lrghomes.com" class="cta-btn cta-secondary">Email: info@lrghomes.com</a>
+            </div>
+            <div class="contact-info">
+                <p>Available Monday–Friday, 9 AM–6 PM PST | Serving the South Bay & Peninsula</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+        }
+
+        function scrollToContact() {
+            const contactSection = document.getElementById('contact');
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
