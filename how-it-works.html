@@ -231,12 +231,12 @@
       <div id="hiw-success">✅ Got it! We'll be in touch within 24 hours.</div>
       <form id="hiw-form">
         <div class="form-row">
-          <input type="text" name="name" placeholder="Your Name" required />
+          <input type="text" name="fullName" placeholder="Your Name" required />
           <input type="tel" name="phone" placeholder="Phone Number" required />
         </div>
         <div class="form-row">
           <input type="email" name="email" placeholder="Email Address" required />
-          <input type="text" name="address" placeholder="Property Address" required />
+          <input type="text" name="propertyAddress" placeholder="Property Address" required />
         </div>
         <button type="submit">GET MY CASH OFFER →</button>
         <div id="hiw-error"></div>
@@ -290,10 +290,10 @@
     btn.disabled = true;
 
     const data = {
-      fullName: this.name.value,
+      fullName: this.fullName.value,
       phone: this.phone.value,
       email: this.email.value,
-      address: this.address.value,
+      propertyAddress: this.propertyAddress.value,
       source: 'How It Works Page'
     };
 
