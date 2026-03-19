@@ -1,0 +1,9 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "functions": {
+    "api/submit-lead.js": {
+      "maxDuration": 15
+    }
+  }
+}

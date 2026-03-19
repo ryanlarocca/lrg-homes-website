@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You — LRG Homes</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .ty-section {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .ty-card {
+      max-width: 560px;
+    }
+    .ty-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    .ty-card h1 {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+    }
+    .ty-card p {
+      font-size: 1.1rem;
+      color: #555;
+      margin-bottom: 12px;
+    }
+    .ty-card .btn-hero {
+      display: inline-block;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">LRG<span>Homes</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<section class="ty-section">
+  <div class="ty-card">
+    <div class="ty-icon">✅</div>
+    <h1>We Got Your Request!</h1>
+    <p>Thanks for reaching out. We're reviewing your information now and will be in touch within 24 hours.</p>
+    <p>Have questions in the meantime? Call or text us at <strong>(408) 493-0632</strong>.</p>
+    <a href="index.html" class="btn-hero">← Back to Home</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="nav-logo">LRG<span class="text-gold">Homes</span></a>
+      <p>Bay Area's trusted cash home buyer.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="tel:4084930632">(408) 493-0632</a>
+      <a href="mailto:info@lrghomes.com">info@lrghomes.com</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 LRG Homes LLC. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('navToggle').addEventListener('click', function() {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+</script>
+</body>
+</html>
