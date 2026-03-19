@@ -153,7 +153,7 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
 
     await sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range: `${sheetTab}!A:H`,
+      range: `'${sheetTab}'!A:H`,
       valueInputOption: 'RAW',
       insertDataOption: 'INSERT_ROWS',
       requestBody: { values: [row] },
