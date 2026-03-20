@@ -300,11 +300,17 @@
         });
 
         if (res.ok) {
-          // Google Ads conversion
-          gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
-          // Facebook Lead event
+          // Facebook Lead event (fire immediately)
           fbq('track', 'Lead');
-          window.location.href = '/thank-you.html';
+          // Google Ads conversion — use eventCallback so redirect waits for ping
+          gtag('event', 'conversion', {
+            'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq',
+            'event_callback': function() {
+              window.location.href = '/thank-you.html';
+            }
+          });
+          // Fallback: redirect after 1s if eventCallback doesn't fire
+          setTimeout(function() { window.location.href = '/thank-you.html'; }, 1000);
         } else {
           errorMsg.style.display = 'block';
           submitBtn.disabled = false;
