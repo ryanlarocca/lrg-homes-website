@@ -6,6 +6,33 @@
   <title>How It Works — LRG Homes | Sell Your Bay Area Home Fast for Cash</title>
   <meta name="description" content="Learn how LRG Homes buys your Bay Area home in 5 simple steps. Cash offer in 24 hours, no repairs, no commissions, close on your timeline." />
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Google Ads Pixel -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11434036654"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-11434036654');
+  </script>
+
+  <!-- Facebook Pixel — REPLACE YOUR_PIXEL_ID with your actual FB Pixel ID -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"
+  /></noscript>
+
   <style>
     .hiw-hero {
       background: linear-gradient(135deg, var(--navy) 0%, #1a2d4f 60%, #0d2137 100%);
@@ -304,6 +331,10 @@
         body: JSON.stringify(data)
       });
       if (res.ok) {
+        // Google Ads conversion
+        gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
+        // Facebook Lead event
+        fbq('track', 'Lead');
         this.style.display = 'none';
         document.getElementById('hiw-success').style.display = 'block';
       } else {
