@@ -3,327 +3,830 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LRG Homes — We Buy Houses in the Bay Area | Cash Offers</title>
-  <meta name="description" content="LRG Homes buys single-family and multi-family properties in the Bay Area — any condition, no repairs, no commissions. Get your cash offer today." />
-  <link rel="stylesheet" href="styles.css" />
+  <title>LRG Homes — Sell Your Bay Area Home Fast for Cash</title>
+  <meta name="description" content="Get a cash offer for your Bay Area home in 24 hours. No repairs, no commissions, close on your timeline. South Bay & Peninsula specialists." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-TK72454K');</script>
+  <!-- End Google Tag Manager -->
 
-  <!-- Google Ads Pixel -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11434036654"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-11434036654');
-  </script>
-
-  <!-- Facebook Pixel: 2287230658217255 -->
+  <!-- Facebook Pixel -->
   <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
+    if(!f._fbq)f._fbq=n;n.queue=[];n.version='2.0';
+    n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '2287230658217255');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=2287230658217255&ev=PageView&noscript=1"
-  /></noscript>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src="https://www.facebook.com/tr?id=2287230658217255&ev=PageView&noscript=1" />
+  </noscript>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #1a3a5c;
+      --navy-dark: #122a42;
+      --navy-light: #234e7a;
+      --gold: #d4a017;
+      --gold-hover: #b8890f;
+      --white: #ffffff;
+      --off-white: #f8f9fb;
+      --gray: #6b7280;
+      --light-gray: #e5e7eb;
+      --text: #1f2937;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--navy);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: var(--gold); }
+
+    .header-phone {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.05rem;
+      background: var(--gold);
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+
+    .header-phone:hover { background: var(--gold-hover); }
+    .header-phone svg { flex-shrink: 0; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      padding: 48px 20px 56px;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(1.75rem, 5vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero-copy h1 em {
+      font-style: normal;
+      color: var(--gold);
+    }
+
+    .hero-copy p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      margin-bottom: 24px;
+    }
+
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    /* ── FORM CARD ── */
+    .form-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    }
+
+    .form-card h2 {
+      color: var(--navy);
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray);
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid var(--light-gray);
+      border-radius: 7px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--off-white);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(26,58,92,0.12);
+      background: var(--white);
+    }
+
+    .btn-cta {
+      width: 100%;
+      padding: 16px;
+      background: var(--gold);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .btn-cta:hover { background: var(--gold-hover); }
+    .btn-cta:active { transform: scale(0.99); }
+
+    .form-note {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--gray);
+      margin-top: 10px;
+    }
+
+    .thank-you {
+      display: none;
+      text-align: center;
+      padding: 24px 16px;
+    }
+
+    .thank-you .ty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .thank-you h3 {
+      color: var(--navy);
+      font-size: 1.3rem;
+      margin-bottom: 8px;
+    }
+
+    .thank-you p {
+      color: var(--gray);
+    }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      background: var(--off-white);
+      border-top: 3px solid var(--gold);
+      border-bottom: 1px solid var(--light-gray);
+      padding: 32px 20px;
+    }
+
+    .trust-bar-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .trust-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .trust-icon {
+      width: 52px;
+      height: 52px;
+      background: var(--navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .trust-icon svg { color: var(--gold); }
+
+    .trust-stat {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .trust-label {
+      font-size: 0.85rem;
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 64px 20px; }
+
+    .section-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      display: inline-block;
+      background: rgba(26,58,92,0.08);
+      color: var(--navy);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    h2.section-title {
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 40px;
+      line-height: 1.25;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works { background: var(--white); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+      position: relative;
+    }
+
+    .step {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 1.3rem;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-body h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .step-body p { color: var(--gray); font-size: 0.95rem; }
+
+    /* ── WHY LRG ── */
+    .why-lrg { background: var(--off-white); }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .benefit {
+      background: var(--white);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .benefit-icon {
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .benefit-text h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .benefit-text p { font-size: 0.88rem; color: var(--gray); }
+
+    /* ── SOCIAL PROOF ── */
+    .social-proof { background: var(--navy); }
+
+    .social-proof .section-tag {
+      background: rgba(255,255,255,0.15);
+      color: var(--gold);
+    }
+
+    .social-proof h2.section-title { color: var(--white); }
+
+    .reviews {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .review-card {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+
+    .stars {
+      color: var(--gold);
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+    }
+
+    .review-text {
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .reviewer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .reviewer-avatar {
+      width: 42px;
+      height: 42px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    .reviewer-name {
+      color: var(--white);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .reviewer-loc {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.8rem;
+    }
+
+    /* ── BOTTOM CTA ── */
+    .bottom-cta {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      text-align: center;
+      padding: 64px 20px;
+    }
+
+    .bottom-cta h2 {
+      font-size: clamp(1.5rem, 4vw, 2.1rem);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .bottom-cta p {
+      opacity: 0.85;
+      margin-bottom: 40px;
+      font-size: 1.05rem;
+    }
+
+    .bottom-cta .form-card {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 24px 20px;
+      font-size: 0.88rem;
+    }
+
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    footer .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 6px 20px;
+      margin-top: 6px;
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .trust-bar-inner {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .step { flex-direction: column; align-items: center; text-align: center; }
+
+      .benefits {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .reviews {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TK72454K" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">LRG<span>Homes</span></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="blog.html">Blog</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="index.html#contact" class="btn-nav">Get Offer</a>
-    </div>
-  </div>
-</nav>
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">LRG<span>Homes</span></div>
+  <a class="header-phone" href="tel:4084930632">
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.91 13 19.79 19.79 0 0 1 1.85 4.35 2 2 0 0 1 3.82 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    (408) 493-0632
+  </a>
+</header>
 
-<!-- HERO -->
+<!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-badge">Bay Area Cash Home Buyers</div>
-    <h1>We Buy <span>Single-Family</span> &amp; <span>Multi-Family</span> Properties in the Bay Area</h1>
-    <p>Skip the repairs, the showings, and the commissions. Get a fair cash offer and close on your schedule.</p>
-    <a href="#contact" class="btn-hero">GET YOUR CASH OFFER →</a>
-    <div class="hero-stats">
-      <div class="hero-stat"><strong>5</strong><span>Days to Close</span></div>
-      <div class="hero-stat"><strong>Any</strong><span>Condition</span></div>
-      <div class="hero-stat"><strong>$0</strong><span>Commissions</span></div>
-      <div class="hero-stat"><strong>10+</strong><span>Projects / Year</span></div>
+    <div class="hero-copy">
+      <h1>Sell Your Bay Area Home Fast — <em>Cash Offer in 24 Hours</em></h1>
+      <p>No repairs. No commissions. Close on your timeline.</p>
+      <div class="hero-badges">
+        <span class="badge">✓ South Bay &amp; Peninsula</span>
+        <span class="badge">✓ All-Cash Buyers</span>
+        <span class="badge">✓ Close in 5 Days</span>
+      </div>
+    </div>
+    <div class="form-card" id="hero-form-card">
+      <h2>Get Your Free Cash Offer</h2>
+      <form id="hero-form">
+        <div class="form-group">
+          <label for="hero-name">Your Name</label>
+          <input type="text" id="hero-name" name="fullName" placeholder="John Smith" required />
+        </div>
+        <div class="form-group">
+          <label for="hero-phone">Phone Number</label>
+          <input type="tel" id="hero-phone" name="phone" placeholder="(408) 555-0100" required />
+        </div>
+        <div class="form-group">
+          <label for="hero-email">Email</label>
+          <input type="email" id="hero-email" name="email" placeholder="john@example.com" />
+        </div>
+        <div class="form-group">
+          <label for="hero-address">Property Address</label>
+          <input type="text" id="hero-address" name="propertyAddress" placeholder="123 Main St, San Jose, CA" />
+        </div>
+        <button type="submit" class="btn-cta">Get My Cash Offer →</button>
+        <p class="form-note">🔒 100% free &amp; no obligation. We'll call you within 24 hours.</p>
+      </form>
+      <div class="thank-you" id="hero-thanks">
+        <div class="ty-icon">🎉</div>
+        <h3>We Got Your Info!</h3>
+        <p>Ryan will be in touch within 24 hours with your cash offer.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- VALUE PROPS -->
-<section class="section section-alt">
-  <div class="container">
-    <div class="section-header centered">
-      <div class="section-label">Why LRG Homes</div>
-      <h2 class="section-title">The Easiest Way to Sell Your Home</h2>
-      <p class="section-sub">No agents, no open houses, no headaches. Just a fair offer and a fast, smooth closing.</p>
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div class="trust-stat">5 Days</div>
+      <div class="trust-label">To Close</div>
     </div>
-    <div class="props-grid">
-      <div class="prop-card">
-        <div class="prop-icon">🏠</div>
-        <div>
-          <h3>Any Condition</h3>
-          <p>We buy homes as-is — no repairs, cleaning, or updates needed before we make an offer.</p>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="trust-stat">Any</div>
+      <div class="trust-label">Condition</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div class="trust-stat">$0</div>
+      <div class="trust-label">Commissions</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d4a017" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="trust-stat">10+</div>
+      <div class="trust-label">Deals Closed</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── HOW IT WORKS ── -->
+<section class="how-it-works">
+  <div class="section-inner">
+    <span class="section-tag">Simple Process</span>
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Submit Your Property</h3>
+          <p>Fill out the short form above with your name, phone, and property address. Takes less than 60 seconds.</p>
         </div>
       </div>
-      <div class="prop-card">
-        <div class="prop-icon">🚫</div>
-        <div>
-          <h3>No Open Houses</h3>
-          <p>Skip the weekend showings and strangers walking through your home. One visit, one offer.</p>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Get a Cash Offer</h3>
+          <p>Ryan will review your property and contact you within 24–48 hours with a fair, no-obligation cash offer.</p>
         </div>
       </div>
-      <div class="prop-card">
-        <div class="prop-icon">💰</div>
-        <div>
-          <h3>No Commissions</h3>
-          <p>Working directly with us means zero agent commissions — saving you thousands at closing.</p>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Close &amp; Get Paid</h3>
+          <p>Choose your closing date. We handle all the paperwork. You walk away with cash — often in as little as 5 days.</p>
         </div>
       </div>
-      <div class="prop-card">
-        <div class="prop-icon">🔧</div>
-        <div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WHY LRG HOMES ── -->
+<section class="why-lrg">
+  <div class="section-inner">
+    <span class="section-tag">Why Choose Us</span>
+    <h2 class="section-title">Why Sellers Choose LRG Homes</h2>
+    <div class="benefits">
+      <div class="benefit">
+        <div class="benefit-icon">🔨</div>
+        <div class="benefit-text">
           <h3>No Repairs or Cleaning</h3>
-          <p>Sell your home exactly as it is. We handle everything after the sale — you just take your money.</p>
+          <p>Sell as-is, in any condition. We buy homes that need work — no fix-ups required.</p>
         </div>
       </div>
-      <div class="prop-card">
-        <div class="prop-icon">📋</div>
-        <div>
+      <div class="benefit">
+        <div class="benefit-icon">🚪</div>
+        <div class="benefit-text">
+          <h3>No Open Houses</h3>
+          <p>Skip the strangers walking through your home. One private visit, that's it.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">💼</div>
+        <div class="benefit-text">
+          <h3>No Agent Commissions</h3>
+          <p>Keep more of your money. No 5–6% agent fees eating into your proceeds.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">📋</div>
+        <div class="benefit-text">
           <h3>We Pay Closing Costs</h3>
-          <p>No surprise fees at the closing table. We cover the costs so you keep more of your equity.</p>
-        </div>
-      </div>
-      <div class="prop-card">
-        <div class="prop-icon">✅</div>
-        <div>
-          <h3>No Hassle or Obligation</h3>
-          <p>Request an offer with zero pressure. If it doesn't work for you, there's no hard feelings.</p>
-        </div>
-      </div>
-      <div class="prop-card">
-        <div class="prop-icon">⚡</div>
-        <div>
-          <h3>Close in 5 Business Days</h3>
-          <p>Need to move fast? We can close in as little as 5 business days — or on your timeline.</p>
+          <p>Zero surprise fees. We cover closing costs so the offer you get is the cash you receive.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="section">
-  <div class="container">
-    <div class="section-header centered">
-      <div class="section-label">The Process</div>
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-sub">Three simple steps to a cash offer and a closed deal.</p>
-    </div>
-    <div class="props-grid" style="grid-template-columns: repeat(auto-fit,minmax(260px,1fr))">
-      <div class="prop-card" style="flex-direction:column; gap:12px; align-items:flex-start;">
-        <div style="font-size:2.2rem;font-weight:900;color:var(--gold);line-height:1;">01</div>
-        <h3>Submit Your Property</h3>
-        <p>Fill out the short form below or give us a call. Tell us about your property — location, condition, and your timeline.</p>
-      </div>
-      <div class="prop-card" style="flex-direction:column; gap:12px; align-items:flex-start;">
-        <div style="font-size:2.2rem;font-weight:900;color:var(--gold);line-height:1;">02</div>
-        <h3>Get a Cash Offer</h3>
-        <p>We'll review your property and present you with a fair, no-obligation cash offer — typically within 24–48 hours.</p>
-      </div>
-      <div class="prop-card" style="flex-direction:column; gap:12px; align-items:flex-start;">
-        <div style="font-size:2.2rem;font-weight:900;color:var(--gold);line-height:1;">03</div>
-        <h3>Close &amp; Get Paid</h3>
-        <p>If you accept, we handle the paperwork. Choose your closing date and walk away with cash in hand.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section class="section section-alt">
-  <div class="container">
-    <div class="section-header centered">
-      <div class="section-label">Client Stories</div>
-      <h2 class="section-title">What Our Sellers Say</h2>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <blockquote>"Had the pleasure of working with Ryan LaRocca last summer. HE WAS VERY KNOWLEDGEABLE about all the in's and out's of our transaction. I never had any difficulty reaching him and he left no questions unanswered. In all, he was a friendly professional who got the job done!"</blockquote>
-        <div class="testimonial-author">— Valerie F.</div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <blockquote>"Amanda is incredibly thoughtful and meticulous. She is very earnest and always wants what's best for both parties. I will be certainly going back to her in the future and will be referring all my acquaintances to her."</blockquote>
-        <div class="testimonial-author">— Sean D.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT FORM -->
-<section class="section section-dark" id="contact">
-  <div class="container">
-    <div class="contact-layout">
-      <div class="contact-info">
-        <div class="section-label">Get Started</div>
-        <h2>Request Your Free Cash Offer</h2>
-        <p>Ready to get a real number? Fill out the form and we'll be in touch within 24 hours — no pressure, no obligation.</p>
-        <div class="contact-item">
-          <div class="icon">📞</div>
+<!-- ── SOCIAL PROOF ── -->
+<section class="social-proof">
+  <div class="section-inner">
+    <span class="section-tag">Reviews</span>
+    <h2 class="section-title">What Sellers Are Saying</h2>
+    <div class="reviews">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Ryan Larocca of LRG Homes purchased my home in San Jose. In my experience Ryan was straight forward and honest. He did not play games. We agreed on a fast, as-is transaction and Ryan executed his side smoothly and as agreed. I found Ryan to be a pleasure to work with. I would do business with him again."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">B</div>
           <div>
-            <strong>(408) 493-0632</strong>
-            <span>Call us anytime</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="icon">✉️</div>
-          <div>
-            <strong>info@lrghomes.com</strong>
-            <span>Email us directly</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="icon">📍</div>
-          <div>
-            <strong>Bay Area, California</strong>
-            <span>Serving all Bay Area counties</span>
+            <div class="reviewer-name">Bill D.</div>
+            <div class="reviewer-loc">San Jose, CA</div>
           </div>
         </div>
       </div>
-
-      <div class="form-card">
-        <h3>Tell Us About Your Property</h3>
-        <form id="lead-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fullName">Full Name</label>
-              <input type="text" id="fullName" name="fullName" placeholder="John Smith" required />
-            </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Ryan helped our family with the sale of two of our investment properties. We had inherited some homes through our family trust and Ryan was able to step in and help us sell the properties. The process was seamless and we sold both for top dollar. Great experience for us. Highly recommend."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">C</div>
+          <div>
+            <div class="reviewer-name">Cynthia Riddle</div>
+            <div class="reviewer-loc">Los Gatos / San Jose, CA</div>
           </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="tel" id="phone" name="phone" placeholder="(408) 555-0000" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email <span style="font-weight:400;opacity:.7;">(optional)</span></label>
-            <input type="email" id="email" name="email" placeholder="john@example.com" />
-          </div>
-          <div class="form-group">
-            <label for="propertyAddress">Property Address <span style="font-weight:400;opacity:.7;">(optional)</span></label>
-            <input type="text" id="propertyAddress" name="propertyAddress" placeholder="123 Main St, San Jose, CA" />
-          </div>
-          <button type="submit" class="btn-submit" id="submit-btn">GET MY CASH OFFER →</button>
-          <div id="error-msg" style="display:none; color:#e74c3c; margin-top:12px; font-size:14px;">
-            Something went wrong. Please try again or call (408) 493-0632.
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="index.html" class="nav-logo">LRG<span class="text-gold">Homes</span></a>
-      <p>Bay Area's trusted cash home buyer. We buy single-family and multi-family properties in any condition.</p>
-    </div>
-    <div>
-      <h4>Pages</h4>
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="blog.html">Blog</a>
-      <a href="how-it-works.html">How It Works</a>
-      <a href="#contact">Get Offer</a>
-    </div>
-    <div>
-      <h4>Contact</h4>
-      <a href="tel:4084930632">(408) 493-0632</a>
-      <a href="mailto:info@lrghomes.com">info@lrghomes.com</a>
+<!-- ── BOTTOM CTA ── -->
+<section class="bottom-cta">
+  <h2>Ready to Get Your Cash Offer?</h2>
+  <p>No repairs. No fees. Close when you're ready.</p>
+  <div class="form-card" id="bottom-form-card">
+    <h2>Get Your Free Cash Offer</h2>
+    <form id="bottom-form">
+      <div class="form-group">
+        <label for="bottom-name">Your Name</label>
+        <input type="text" id="bottom-name" name="fullName" placeholder="John Smith" required />
+      </div>
+      <div class="form-group">
+        <label for="bottom-phone">Phone Number</label>
+        <input type="tel" id="bottom-phone" name="phone" placeholder="(408) 555-0100" required />
+      </div>
+      <div class="form-group">
+        <label for="bottom-email">Email</label>
+        <input type="email" id="bottom-email" name="email" placeholder="john@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="bottom-address">Property Address</label>
+        <input type="text" id="bottom-address" name="propertyAddress" placeholder="123 Main St, San Jose, CA" />
+      </div>
+      <button type="submit" class="btn-cta">Get My Cash Offer →</button>
+      <p class="form-note">🔒 100% free &amp; no obligation. We'll call you within 24 hours.</p>
+    </form>
+    <div class="thank-you" id="bottom-thanks">
+      <div class="ty-icon">🎉</div>
+      <h3>We Got Your Info!</h3>
+      <p>Ryan will be in touch within 24 hours with your cash offer.</p>
     </div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2024 LRG Homes LLC. All rights reserved.</span>
-    <span>Bay Area, California</span>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>© 2026 LRG Homes. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="tel:4084930632">(408) 493-0632</a>
+    <a href="mailto:info@lrghomes.com">info@lrghomes.com</a>
+    <span>South Bay &amp; Peninsula, CA</span>
   </div>
 </footer>
 
 <script>
-  document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
-</script>
+  // Handle lead form submissions via /api/submit-lead
+  function setupForm(formId, thanksId) {
+    const form = document.getElementById(formId);
+    const thanks = document.getElementById(thanksId);
+    if (!form) return;
 
-<script>
-  (function () {
-    const form = document.getElementById('lead-form');
-    const submitBtn = document.getElementById('submit-btn');
-    const errorMsg = document.getElementById('error-msg');
-
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      errorMsg.style.display = 'none';
+      const formData = Object.fromEntries(new FormData(form));
+      const btn = form.querySelector('.btn-cta');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
 
-      // Collect form data
-      const data = Object.fromEntries(new FormData(form));
-
-      // Disable button to prevent double-submit
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Submitting…';
+      // Fire conversion events to Facebook only (GTM will handle Google conversion)
+      if (window.fbq) {
+        window.fbq('track', 'Lead');
+      }
 
       try {
         const res = await fetch('/api/submit-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
+          body: JSON.stringify(formData)
         });
 
         if (res.ok) {
-          // Facebook Lead event (fire immediately)
-          fbq('track', 'Lead');
-          // Google Ads conversion — use eventCallback so redirect waits for ping
-          gtag('event', 'conversion', {
-            'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq',
+          // Push enhanced conversion data to GTM dataLayer
+          dataLayer.push({
+            'event': 'generate_lead',
+            'conversion_id': '11434036654',
+            'conversion_label': 'j2ZECKrh_IYcEK6blswq',
+            'value': 1.0,
+            'currency': 'USD',
             'event_callback': function() {
               window.location.href = '/thank-you.html';
             }
           });
-          // Fallback: redirect after 1s if eventCallback doesn't fire
-          setTimeout(function() { window.location.href = '/thank-you.html'; }, 1000);
+          // Fallback redirect
+          setTimeout(function() {
+            form.style.display = 'none';
+            thanks.style.display = 'block';
+            window.location.href = '/thank-you.html';
+          }, 1000);
         } else {
-          errorMsg.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'GET MY CASH OFFER →';
+          btn.textContent = 'Get My Cash Offer →';
+          btn.disabled = false;
+          alert('Something went wrong. Please call us at (408) 493-0632.');
         }
       } catch (err) {
-        console.error('Form submit error:', err);
-        errorMsg.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'GET MY CASH OFFER →';
+        btn.textContent = 'Get My Cash Offer →';
+        btn.disabled = false;
+        alert('Something went wrong. Please call us at (408) 493-0632.');
       }
     });
-  })();
+  }
+
+  setupForm('hero-form', 'hero-thanks');
+  setupForm('bottom-form', 'bottom-thanks');
 </script>
+
 </body>
 </html>
