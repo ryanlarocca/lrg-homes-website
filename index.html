@@ -23,7 +23,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "LRG Homes",
-    "image": "https://www.lrghomes.com/assets/images/lrg-logo.png",
+    "image": "https://www.lrghomes.com/assets/images/lrg-logo-white.png",
     "url": "https://www.lrghomes.com",
     "telephone": "+1-650-670-3914",
     "address": {
@@ -107,7 +107,6 @@
     .nav-logo span { color: var(--gold); }
     .nav-logo img {
       height: 36px; width: auto; display: block;
-      filter: invert(1);
     }
     .nav-links {
       display: flex; align-items: center; gap: 8px;
@@ -594,6 +593,13 @@
     .review-badge .review-text strong { font-weight: 800; font-size: 1.05rem; }
     .review-badge .review-text small { color: var(--muted); margin-left: 4px; font-size: .82rem; }
     .review-badge .review-text .platform { color: var(--navy); font-weight: 600; }
+    @media (max-width: 380px) {
+      .review-badge { padding: 12px 14px; gap: 10px; }
+      .review-badge .brand-icon { width: 22px; height: 22px; }
+      .review-badge .stars { font-size: .95rem; letter-spacing: .5px; }
+      .review-badge .review-text { font-size: .88rem; }
+      .review-badge .review-text small { display: block; margin: 2px 0 0; }
+    }
 
     /* ── PROPERTY TYPES GALLERY ── */
     .property-types { background: var(--white); padding: 56px 20px; }
@@ -660,7 +666,7 @@
 <!-- ── NAV ── -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="assets/images/lrg-logo.png" alt="LRG Homes" /></a>
+    <a href="index.html" class="nav-logo"><img src="assets/images/lrg-logo-white.png" alt="LRG Homes" /></a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -831,7 +837,7 @@
         </div>
       </div>
       <div class="type-card">
-        <img src="https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=75" alt="Multi-family property" loading="lazy" />
+        <img src="https://images.unsplash.com/photo-1567496898669-ee935f5f647a?auto=format&fit=crop&w=900&q=75" alt="Multi-family property" loading="lazy" />
         <div class="type-overlay">
           <h3>Multi-Family</h3>
           <p>Duplexes, triplexes, and 4-plexes.</p>
