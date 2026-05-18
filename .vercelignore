@@ -1,0 +1,7 @@
+logs/
+.git/
+.DS_Store
+node_modules/
+SETUP.md
+test-endpoints.sh
+scripts/

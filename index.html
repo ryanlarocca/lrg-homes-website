@@ -8,9 +8,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src= 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f); })(window,document,'script','dataLayer','GTM-TK72454K');</script>
-  <!-- End Google Tag Manager -->
+  <!-- Google Ads gtag (standalone) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11434036654"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-11434036654');
+  </script>
 
   <!-- Facebook Pixel -->
   <script>
@@ -532,10 +537,6 @@
   </style>
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TK72454K" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-
 <!-- ── HEADER ── -->
 <header>
   <div class="logo">LRG<span>Homes</span></div>
@@ -781,7 +782,10 @@
       btn.textContent = 'Sending…';
       btn.disabled = true;
 
-      // Fire conversion events to Facebook only (GTM will handle Google conversion)
+      // Fire conversion events immediately on submit (before async fetch)
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
+      }
       if (window.fbq) {
         window.fbq('track', 'Lead');
       }
@@ -794,23 +798,8 @@
         });
 
         if (res.ok) {
-          // Push enhanced conversion data to GTM dataLayer
-          dataLayer.push({
-            'event': 'generate_lead',
-            'conversion_id': '11434036654',
-            'conversion_label': 'j2ZECKrh_IYcEK6blswq',
-            'value': 1.0,
-            'currency': 'USD',
-            'event_callback': function() {
-              window.location.href = '/thank-you.html';
-            }
-          });
-          // Fallback redirect
-          setTimeout(function() {
-            form.style.display = 'none';
-            thanks.style.display = 'block';
-            window.location.href = '/thank-you.html';
-          }, 1000);
+          form.style.display = 'none';
+          thanks.style.display = 'block';
         } else {
           btn.textContent = 'Get My Cash Offer →';
           btn.disabled = false;
