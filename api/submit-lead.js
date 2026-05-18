@@ -167,6 +167,61 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
   }
 }
 
+// ─── Supabase (CRMS leads table) ──────────────────────────────────────────────
+
+async function logToSupabase({ fullName, email, phone, address }) {
+  const url = process.env.LRG_SUPABASE_URL;
+  const key = process.env.LRG_SUPABASE_SERVICE_KEY;
+  if (!url || !key) {
+    console.warn('[submit-lead] Supabase credentials missing — skipping CRMS log');
+    return false;
+  }
+
+  const normalizedPhone = normalizePhone(phone);
+  if (!normalizedPhone) {
+    console.warn(`[submit-lead] Invalid phone for Supabase: ${phone}`);
+    return false;
+  }
+
+  try {
+    // Form submission implies opt-in (form note: "We'll call you within 24
+    // hours" + phone provided), so enroll in the google_ads_form drip cadence.
+    const response = await fetch(`${url}/rest/v1/leads`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({
+        name: fullName || null,
+        email: email || null,
+        caller_phone: normalizedPhone,
+        property_address: address || null,
+        source: 'Google Ads',
+        source_type: 'google_ads',
+        lead_type: 'form',
+        status: 'new',
+        drip_campaign_type: 'google_ads_form',
+        drip_touch_number: 0,
+        last_drip_sent_at: new Date().toISOString(),
+      }),
+    });
+
+    if (!response.ok) {
+      const errText = await response.text();
+      console.error(`[submit-lead] Supabase insert failed ${response.status}: ${errText}`);
+      return false;
+    }
+    console.log('[submit-lead] Lead logged to Supabase CRMS');
+    return true;
+  } catch (err) {
+    console.error('[submit-lead] Supabase error:', err.message);
+    return false;
+  }
+}
+
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
 module.exports = async function handler(req, res) {
@@ -275,15 +330,27 @@ module.exports = async function handler(req, res) {
     return false;
   });
 
+  // Supabase CRMS logging (runs in parallel with the others)
+  const supabaseLog = logToSupabase({
+    fullName,
+    email: cleanEmail,
+    phone: cleanPhone,
+    address: cleanAddress,
+  }).catch((err) => {
+    console.error('[submit-lead] Supabase log error:', err.message);
+    return false;
+  });
+
   // Wait for all in parallel
-  const [sms, emailSent, sheets, smsLead] = await Promise.all([
+  const [sms, emailSent, sheets, smsLead, supabase] = await Promise.all([
     smsToRyan,
     emailToLead,
     sheetsLog,
     smsToLead,
+    supabaseLog,
   ]);
 
-  const results = { sms, email: emailSent, sheets, smsLead };
+  const results = { sms, email: emailSent, sheets, smsLead, supabase };
   console.log(`[submit-lead] ${timestamp} — Results:`, results);
 
   return res.status(200).json({
