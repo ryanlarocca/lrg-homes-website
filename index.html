@@ -538,6 +538,37 @@
       margin-top: 6px;
     }
 
+    /* ── PROPERTY TYPES GALLERY ── */
+    .property-types { background: var(--white); padding: 56px 20px; }
+    .property-types .section-inner { text-align: center; max-width: 1200px; margin: 0 auto; }
+    .types-grid {
+      display: grid; grid-template-columns: 1fr; gap: 18px;
+      margin-top: 36px;
+    }
+    .type-card {
+      position: relative; overflow: hidden;
+      border-radius: 10px;
+      aspect-ratio: 4 / 3;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    }
+    .type-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform .35s ease;
+    }
+    .type-card:hover img { transform: scale(1.04); }
+    .type-card .type-overlay {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to top, rgba(18,42,66,.92), rgba(18,42,66,0));
+      color: var(--white); padding: 36px 20px 18px;
+      text-align: left;
+    }
+    .type-card .type-overlay h3 {
+      font-size: 1.05rem; font-weight: 700; margin: 0;
+    }
+    .type-card .type-overlay p {
+      font-size: .85rem; opacity: .9; margin-top: 4px;
+    }
+
     /* ── DESKTOP ── */
     @media (min-width: 768px) {
       .hero-inner {
@@ -561,6 +592,8 @@
       .reviews {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .types-grid { grid-template-columns: repeat(4, 1fr); }
     }
   </style>
 </head>
@@ -687,6 +720,45 @@
         <div class="step-body">
           <h3>Close &amp; Get Paid</h3>
           <p>Choose your closing date. We handle all the paperwork. You walk away with cash — often in as little as 5 days.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROPERTY TYPES ── -->
+<section class="property-types">
+  <div class="section-inner">
+    <span class="section-tag">What We Buy</span>
+    <h2 class="section-title">Bay Area Properties We Purchase</h2>
+    <p style="max-width:640px;margin:8px auto 0;color:var(--muted);font-size:1rem;">From single-family homes to multi-unit buildings, we make all-cash offers on properties in any condition across the South Bay and Peninsula.</p>
+    <div class="types-grid">
+      <div class="type-card">
+        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=900&q=75" alt="Single-family home" loading="lazy" />
+        <div class="type-overlay">
+          <h3>Single-Family Homes</h3>
+          <p>Detached homes across San Jose, Sunnyvale, Mountain View &amp; more.</p>
+        </div>
+      </div>
+      <div class="type-card">
+        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&w=900&q=75" alt="Multi-family property" loading="lazy" />
+        <div class="type-overlay">
+          <h3>Multi-Family</h3>
+          <p>Duplexes, triplexes, and small apartment buildings.</p>
+        </div>
+      </div>
+      <div class="type-card">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=75" alt="Condo or townhome" loading="lazy" />
+        <div class="type-overlay">
+          <h3>Condos &amp; Townhomes</h3>
+          <p>HOA properties throughout the Bay Area.</p>
+        </div>
+      </div>
+      <div class="type-card">
+        <img src="https://images.unsplash.com/photo-1449844908441-8829872d2607?auto=format&fit=crop&w=900&q=75" alt="Distressed or fixer property" loading="lazy" />
+        <div class="type-overlay">
+          <h3>Distressed &amp; Fixers</h3>
+          <p>Inherited, vacant, fire-damaged, or in need of major repairs.</p>
         </div>
       </div>
     </div>
