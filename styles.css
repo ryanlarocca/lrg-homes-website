@@ -318,6 +318,35 @@ html[data-theme="night"] .story-facts span { background: var(--bg-2); border: 1p
 .quote footer a { color: var(--accent); font-weight: 600; margin-left: auto; }
 .g-logo { width: 18px; height: 18px; flex: none; }
 
+/* ─── TEXT-MESSAGE QUOTE (a real text, recreated — no numbers, no surnames) ─── */
+.text-thread {
+  margin: 22px 0 0; max-width: 440px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 22px;
+  padding: 16px 18px 14px; box-shadow: var(--card-shadow);
+}
+.tt-head { display: flex; gap: 10px; align-items: center; padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--line); }
+.tt-head .avatar { width: 36px; height: 36px; font-size: .95rem; }
+.tt-head strong { display: block; font-size: .95rem; color: var(--ink); font-weight: 600; line-height: 1.2; }
+.tt-head span span { display: block; font-size: .8rem; color: var(--muted); }
+.tt-time { text-align: center; font-size: .72rem; color: var(--muted); margin: 10px 0 12px; }
+.tt-msg {
+  position: relative; width: fit-content; max-width: 84%;
+  padding: 9px 14px; border-radius: 18px; margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', var(--sans);
+  font-size: .98rem; line-height: 1.35;
+}
+.tt-msg p { color: inherit; margin: 0; }
+.tt-msg p + p { margin-top: 8px; }
+.tt-msg.in { background: #e9e9eb; color: #111; border-bottom-left-radius: 6px; margin-top: 14px; }
+.tt-msg.out { background: #0a84ff; color: #fff; margin-left: auto; border-bottom-right-radius: 6px; }
+html[data-theme="night"] .tt-msg.in { background: #2c2c2e; color: #f2f2f2; }
+.tt-tapback {
+  position: absolute; top: -14px; right: -12px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px;
+  font-size: .78rem; line-height: 1; padding: 5px 6px; box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.text-thread figcaption { font-size: .8rem; color: var(--muted); margin-top: 6px; }
+
 /* ─── VIDEO TESTIMONIALS ─── */
 .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 @media (max-width: 920px) { .video-grid { grid-template-columns: 1fr; } }
