@@ -491,16 +491,5 @@ html[data-theme="night"] .agents { background: var(--bg-2); border: 1px solid va
 .prop-card p { font-size: .92rem; color: var(--muted); }
 .text-gold { color: var(--accent); }
 
-/* ─── PREVIEW LOOK SWITCH (remove before go-live) ─── */
-.look-switch {
-  position: fixed; left: 16px; bottom: 16px; z-index: 200;
-  display: inline-flex; align-items: center; gap: 4px;
-  background: var(--bg-2); border: 1px solid var(--line); border-radius: 999px;
-  padding: 4px; box-shadow: 0 8px 30px rgba(0,0,0,.25); font-size: .8rem;
-}
-.look-switch span { padding: 0 8px 0 10px; color: var(--muted); font-weight: 600; letter-spacing: .04em; text-transform: uppercase; font-size: .7rem; }
-.look-switch button { border: none; background: transparent; color: var(--ink-2); padding: 7px 12px; border-radius: 999px; cursor: pointer; font-weight: 600; }
-.look-switch button.active { background: var(--ink); color: var(--bg); }
-
 /* ─── MOTION ─── */
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn, .btn-hero, .blog-card, .video-slot .play { transition: none; } }

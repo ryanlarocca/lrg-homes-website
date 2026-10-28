@@ -6,7 +6,8 @@
   <title>How it works — Selling your house to LRG Homes | San Jose</title>
   <meta name="description" content="What happens when you call LRG Homes: one visit, a written cash offer within 24 hours, and a closing date you choose — as fast as 5 days. No repairs, no commissions, no open houses. Plain answers to the usual questions." />
   <link rel="canonical" href="https://www.lrghomes.com/how-it-works" />
-  <script>(function(){try{var p=new URLSearchParams(location.search).get('look');if(p==='night'||p==='daylight'){localStorage.setItem('lrg-look',p)}if(localStorage.getItem('lrg-look')==='night'){document.documentElement.setAttribute('data-theme','night')}}catch(e){}})();</script>
+  <meta name="theme-color" content="#f7f4ee" />
+  <script src="theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -160,17 +161,10 @@
   </div>
 </footer>
 
-<div class="look-switch" id="lookSwitch" role="group" aria-label="Preview look"><span>Look</span><button type="button" data-look="daylight">Daylight</button><button type="button" data-look="night">Night</button></div>
 
 <script>
   document.getElementById('navToggle').addEventListener('click', function () { document.getElementById('navLinks').classList.toggle('open'); });
   document.querySelectorAll('.faq-q').forEach(function (q) { q.addEventListener('click', function () { this.parentElement.classList.toggle('open'); }); });
-  (function () {
-    var sw = document.getElementById('lookSwitch');
-    function paint() { var night = document.documentElement.getAttribute('data-theme') === 'night'; sw.querySelectorAll('button').forEach(function (b) { b.classList.toggle('active', (b.dataset.look === 'night') === night); }); }
-    sw.addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; if (b.dataset.look === 'night') document.documentElement.setAttribute('data-theme', 'night'); else document.documentElement.removeAttribute('data-theme'); try { localStorage.setItem('lrg-look', b.dataset.look); } catch (err) {} paint(); });
-    paint();
-  })();
 </script>
 </body>
 </html>

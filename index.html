@@ -11,8 +11,8 @@
   <meta property="og:image" content="https://www.lrghomes.com/assets/images/stories/ridgeview/twilight.jpg" />
   <meta property="og:type" content="website" />
 
-  <!-- Look (Daylight / Night) — set before paint so there's no flash -->
-  <script>(function(){try{var p=new URLSearchParams(location.search).get('look');if(p==='night'||p==='daylight'){localStorage.setItem('lrg-look',p)}if(localStorage.getItem('lrg-look')==='night'){document.documentElement.setAttribute('data-theme','night')}}catch(e){}})();</script>
+  <meta name="theme-color" content="#f7f4ee" />
+  <script src="theme.js"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -402,12 +402,6 @@
   </div>
 </footer>
 
-<!-- PREVIEW ONLY: look switch -->
-<div class="look-switch" id="lookSwitch" role="group" aria-label="Preview look">
-  <span>Look</span>
-  <button type="button" data-look="daylight">Daylight</button>
-  <button type="button" data-look="night">Night</button>
-</div>
 
 <script>
   // Nav
@@ -418,22 +412,6 @@
     a.addEventListener('click', function () { document.getElementById('navLinks').classList.remove('open'); });
   });
 
-  // Look switch (preview)
-  (function () {
-    var sw = document.getElementById('lookSwitch');
-    function paint() {
-      var night = document.documentElement.getAttribute('data-theme') === 'night';
-      sw.querySelectorAll('button').forEach(function (b) { b.classList.toggle('active', (b.dataset.look === 'night') === night); });
-    }
-    sw.addEventListener('click', function (e) {
-      var b = e.target.closest('button'); if (!b) return;
-      if (b.dataset.look === 'night') document.documentElement.setAttribute('data-theme', 'night');
-      else document.documentElement.removeAttribute('data-theme');
-      try { localStorage.setItem('lrg-look', b.dataset.look); } catch (err) {}
-      paint();
-    });
-    paint();
-  })();
 
   // Video slots: play inline when a source is set, otherwise do nothing yet.
   document.querySelectorAll('.video-slot').forEach(function (slot) {
