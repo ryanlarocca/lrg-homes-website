@@ -253,6 +253,15 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'phone is required' });
   }
 
+  // Bot defense — honeypot + timing. Return 200 so bots think it worked.
+  const honeypot = (body.fax_number || '').trim();
+  const elapsed = parseInt(body._t, 10);
+  // Fail-closed: missing or non-numeric _t is treated as 0ms (reject).
+  if (honeypot || !Number.isFinite(elapsed) || elapsed < 3000) {
+    console.warn(`[submit-lead] Bot rejected — honeypot:"${honeypot}" elapsed:${elapsed}ms name:"${fullName}"`);
+    return res.status(200).json({ success: true, message: 'Lead received' });
+  }
+
   const cleanPhone = phone.trim();
   const cleanEmail = email ? email.trim() : '';
   const firstName = fullName.split(' ')[0];

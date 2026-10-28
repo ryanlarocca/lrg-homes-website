@@ -698,6 +698,10 @@
     <div class="form-card" id="hero-form-card">
       <h2>Get Your Free Cash Offer</h2>
       <form id="hero-form">
+        <div style="display:none" aria-hidden="true">
+          <label for="hero-fax">Fax</label>
+          <input type="text" id="hero-fax" name="fax_number" tabindex="-1" autocomplete="off" />
+        </div>
         <div class="form-group">
           <label for="hero-name">Your Name</label>
           <input type="text" id="hero-name" name="fullName" placeholder="John Smith" required />
@@ -931,6 +935,10 @@
   <div class="form-card" id="bottom-form-card">
     <h2>Get Your Free Cash Offer</h2>
     <form id="bottom-form">
+      <div style="display:none" aria-hidden="true">
+        <label for="bottom-fax">Fax</label>
+        <input type="text" id="bottom-fax" name="fax_number" tabindex="-1" autocomplete="off" />
+      </div>
       <div class="form-group">
         <label for="bottom-name">Your Name</label>
         <input type="text" id="bottom-name" name="fullName" placeholder="John Smith" required />
@@ -970,6 +978,8 @@
 
 <script>
   // Handle lead form submissions via /api/submit-lead
+  const _pageLoadTime = Date.now();
+
   function setupForm(formId, thanksId) {
     const form = document.getElementById(formId);
     const thanks = document.getElementById(thanksId);
@@ -978,17 +988,10 @@
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const formData = Object.fromEntries(new FormData(form));
+      formData._t = String(Date.now() - _pageLoadTime); // ms since page load
       const btn = form.querySelector('.btn-cta');
       btn.textContent = 'Sending…';
       btn.disabled = true;
-
-      // Fire conversion events immediately on submit (before async fetch)
-      if (typeof gtag === 'function') {
-        gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
-      }
-      if (window.fbq) {
-        window.fbq('track', 'Lead');
-      }
 
       try {
         const res = await fetch('/api/submit-lead', {
@@ -998,6 +1001,14 @@
         });
 
         if (res.ok) {
+          // Fire conversion pixels only on confirmed server success so bots
+          // and rejected submissions don't corrupt Google Ads Smart Bidding.
+          if (typeof gtag === 'function') {
+            gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
+          }
+          if (window.fbq) {
+            window.fbq('track', 'Lead');
+          }
           form.style.display = 'none';
           thanks.style.display = 'block';
         } else {
