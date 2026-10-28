@@ -230,6 +230,37 @@ html:not([data-theme="night"]) .footer-brand img { filter: invert(1); }
   padding: 5px 10px; border-radius: 999px; white-space: nowrap;
 }
 
+/* Photo-only hero (no video yet): lighter overlay, no play button. */
+.video-slot.photo { cursor: default; }
+.video-slot.photo::after { background: linear-gradient(180deg, rgba(20,18,15,0) 55%, rgba(20,18,15,.6) 100%); }
+.video-slot.photo .caption strong { font-size: .95rem; }
+
+/* ─── "GOT A LETTER?" ROW ─── */
+.section-sm { padding: 40px 0; }
+.letter-row {
+  display: grid; grid-template-columns: .8fr 1.2fr; gap: 36px; align-items: start;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 28px 32px; box-shadow: var(--card-shadow);
+}
+.letter-row h2 { font-size: clamp(1.35rem, 2vw, 1.7rem); }
+.letter-checks { display: grid; gap: 12px; counter-reset: c; }
+.letter-checks li { display: flex; gap: 12px; font-size: .95rem; color: var(--ink-2); line-height: 1.5; }
+.letter-checks li::before { counter-increment: c; content: counter(c, decimal-leading-zero); font-family: var(--serif); color: var(--accent); flex: none; padding-top: 2px; }
+.letter-checks strong { color: var(--ink); }
+.letter-checks a { color: var(--accent); font-weight: 600; }
+@media (max-width: 820px) { .letter-row { grid-template-columns: 1fr; gap: 18px; padding: 22px 20px; } }
+
+/* ─── AGENTS STRIP ─── */
+.agents-strip {
+  display: flex; justify-content: space-between; align-items: center; gap: 28px;
+  background: var(--ink); color: var(--bg); border-radius: var(--radius); padding: 28px 32px;
+}
+html[data-theme="night"] .agents-strip { background: var(--bg-2); border: 1px solid var(--line); color: var(--ink); }
+.agents-strip h2 { color: inherit; font-size: clamp(1.35rem, 2vw, 1.7rem); margin-bottom: 6px; }
+.agents-strip p { color: inherit; opacity: .8; font-size: .95rem; max-width: 640px; }
+.agents-strip .btn { flex: none; }
+@media (max-width: 820px) { .agents-strip { flex-direction: column; align-items: flex-start; padding: 22px 20px; } }
+
 /* ─── PROOF STRIP ─── */
 .proof {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
