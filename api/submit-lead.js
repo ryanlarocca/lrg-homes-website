@@ -6,13 +6,22 @@
  *   1. Sends SMS to Ryan via Twilio
  *   2. Sends confirmation email to lead via Gmail API (OAuth2)
  *   3. Logs lead to Google Sheets via Sheets API (OAuth2)
- *   4. Sends SMS to lead via Twilio (may show undelivered until A2P registration)
+ *   4. Sends SMS to lead via Twilio — only when they ticked the text consent box
+ *   5. Writes the lead to the CRMS leads table (Supabase)
+ *
+ * The form asks what the visit is about: "sell" (a seller), "deal" (an
+ * agent or wholesaler with a property), or "other". Only a seller who
+ * also ticked the text-consent box is enrolled in the automatic text
+ * follow-up — an agent or a curious visitor never gets seller texts
+ * (Ryan, 2026-10-27).
  *
  * Auth: OAuth2 with refresh token (info@lrghomes.com account)
  * Always returns 200 regardless of downstream failures.
  */
 
 const { google } = require('googleapis');
+
+const ABOUT_LABELS = { sell: 'Sell a property', deal: 'Bring a deal', other: 'Something else' };
 
 // ─── Google OAuth2 Client ─────────────────────────────────────────────────────
 
@@ -126,7 +135,7 @@ async function sendEmail({ to, subject, textBody }) {
 
 // ─── Google Sheets API (OAuth2) ───────────────────────────────────────────────
 
-async function logToSheets({ timestamp, fullName, email, phone, address, propertyType, source }) {
+async function logToSheets({ fullName, email, phone, address, notes, source }) {
   const sheetId = process.env.LEAD_SHEET_ID;
   const sheetTab = process.env.LEAD_SHEET_TAB || 'Google Ads';
 
@@ -145,10 +154,10 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
       email,
       phone,
       address,
-      source || 'Google Ads',
+      source,
       'New Lead',
       new Date().toLocaleDateString('en-US', { timeZone: 'America/Los_Angeles' }),
-      propertyType || '',
+      notes || '',
     ];
 
     await sheets.spreadsheets.values.append({
@@ -169,7 +178,7 @@ async function logToSheets({ timestamp, fullName, email, phone, address, propert
 
 // ─── Supabase (CRMS leads table) ──────────────────────────────────────────────
 
-async function logToSupabase({ fullName, email, phone, address }) {
+async function logToSupabase({ fullName, email, phone, address, about, message, enrollDrip }) {
   const url = process.env.LRG_SUPABASE_URL;
   const key = process.env.LRG_SUPABASE_SERVICE_KEY;
   if (!url || !key) {
@@ -183,9 +192,29 @@ async function logToSupabase({ fullName, email, phone, address }) {
     return false;
   }
 
+  const row = {
+    name: fullName || null,
+    email: email || null,
+    caller_phone: normalizedPhone,
+    property_address: address || null,
+    // "Website" is the label Mission Control shows; source_type "website" is
+    // the bucket (lib/leads.ts in mission-control). The old "Google Ads" /
+    // google_ads values stay on historical rows only.
+    source: 'Website',
+    source_type: 'website',
+    lead_type: 'form',
+    status: 'new',
+    message: [`[Website form · ${ABOUT_LABELS[about] || about}]`, message].filter(Boolean).join(' '),
+  };
+  if (enrollDrip) {
+    // Seller + text consent: the AI-drafted form cadence picks up from
+    // touch 1 (google_ads_form is the cadence's name, not its source).
+    row.drip_campaign_type = 'google_ads_form';
+    row.drip_touch_number = 0;
+    row.last_drip_sent_at = new Date().toISOString();
+  }
+
   try {
-    // Form submission implies opt-in (form note: "We'll call you within 24
-    // hours" + phone provided), so enroll in the google_ads_form drip cadence.
     const response = await fetch(`${url}/rest/v1/leads`, {
       method: 'POST',
       headers: {
@@ -194,19 +223,7 @@ async function logToSupabase({ fullName, email, phone, address }) {
         Authorization: `Bearer ${key}`,
         Prefer: 'return=minimal',
       },
-      body: JSON.stringify({
-        name: fullName || null,
-        email: email || null,
-        caller_phone: normalizedPhone,
-        property_address: address || null,
-        source: 'Google Ads',
-        source_type: 'google_ads',
-        lead_type: 'form',
-        status: 'new',
-        drip_campaign_type: 'google_ads_form',
-        drip_touch_number: 0,
-        last_drip_sent_at: new Date().toISOString(),
-      }),
+      body: JSON.stringify(row),
     });
 
     if (!response.ok) {
@@ -214,7 +231,7 @@ async function logToSupabase({ fullName, email, phone, address }) {
       console.error(`[submit-lead] Supabase insert failed ${response.status}: ${errText}`);
       return false;
     }
-    console.log('[submit-lead] Lead logged to Supabase CRMS');
+    console.log(`[submit-lead] Lead logged to Supabase CRMS (drip: ${enrollDrip ? 'yes' : 'no'})`);
     return true;
   } catch (err) {
     console.error('[submit-lead] Supabase error:', err.message);
@@ -232,9 +249,13 @@ module.exports = async function handler(req, res) {
   const body = req.body || {};
 
   const fullName = (body.fullName || `${body.firstName || ''} ${body.lastName || ''}`.trim()).trim();
-  const { email, phone, propertyAddress, address, propertyType, source } = body;
+  const { email, phone, propertyAddress, address, propertyType } = body;
   const cleanAddress = (propertyAddress || address || '').trim();
-  const leadSource = source || 'Google Ads';
+  const about = ABOUT_LABELS[body.about] ? body.about : 'sell';
+  const aboutLabel = ABOUT_LABELS[about];
+  const message = String(body.message || propertyType || '').trim().slice(0, 1000);
+  const smsConsent = body.smsConsent === true || body.smsConsent === 'on' || body.smsConsent === 'true';
+  const leadSource = 'Website';
   const timestamp = new Date().toISOString();
 
   console.log(`[submit-lead] ${timestamp} — Incoming lead:`, {
@@ -242,8 +263,9 @@ module.exports = async function handler(req, res) {
     email: email || '(none)',
     phone,
     address: cleanAddress || '(none)',
-    propertyType: propertyType || '(none)',
-    source: leadSource,
+    about,
+    smsConsent,
+    message: message || '(none)',
   });
 
   if (!fullName) {
@@ -265,6 +287,7 @@ module.exports = async function handler(req, res) {
   const cleanPhone = phone.trim();
   const cleanEmail = email ? email.trim() : '';
   const firstName = fullName.split(' ')[0];
+  const isSeller = about === 'sell';
 
   // ── 0. Fire Mac mini for AppleScript SMS (temp until Twilio A2P approved) ──
   const macMiniUrl = process.env.MAC_MINI_LEAD_WEBHOOK_URL;
@@ -278,34 +301,49 @@ module.exports = async function handler(req, res) {
         'Bypass-Tunnel-Reminder': 'true',
         ...(macSecret ? { 'x-webhook-secret': macSecret } : {}),
       },
-      body: JSON.stringify({ fullName, email: cleanEmail, phone: cleanPhone, address: cleanAddress, propertyType: propertyType || '' }),
+      body: JSON.stringify({ fullName, email: cleanEmail, phone: cleanPhone, address: cleanAddress, propertyType: aboutLabel }),
     }).catch((err) => console.error('[submit-lead] Mac mini SMS error:', err.message));
   }
 
   // ── 1. SMS to Ryan ──────────────────────────────────────────────────────────
   const smsToRyan = sendSms(
     '+14084930632',
-    `\uD83D\uDD14 NEW LEAD\nName: ${fullName}\nPhone: ${cleanPhone}\nAddress: ${cleanAddress || '(none)'}\nTime: ${timestamp}`
+    [
+      `🔔 WEBSITE — ${aboutLabel}`,
+      `Name: ${fullName}`,
+      `Phone: ${cleanPhone}`,
+      cleanAddress ? `Address: ${cleanAddress}` : null,
+      message ? `Note: ${message.slice(0, 200)}` : null,
+      `Texts OK: ${smsConsent ? 'yes' : 'no'}`,
+    ].filter(Boolean).join('\n')
   ).catch((err) => {
     console.error('[submit-lead] SMS to Ryan error:', err.message);
     return false;
   });
 
   // ── 2. Confirmation email to lead ───────────────────────────────────────────
-  const emailBody = [
-    `Hey ${firstName},`,
-    '',
-    'Thanks for reaching out. We will be taking a look at the property and getting back to you as soon as possible.',
-    '',
-    'In the meantime, could you let us know when you are planning to make the move? That will help us put together the best offer for you.',
+  const emailBody = (isSeller
+    ? [
+        `Hey ${firstName},`,
+        '',
+        'Thanks for reaching out. We will be taking a look at the property and getting back to you as soon as possible.',
+        '',
+        'In the meantime, could you let us know when you are planning to make the move? That will help us put together the best offer for you.',
+      ]
+    : [
+        `Hey ${firstName},`,
+        '',
+        'Thanks for reaching out through lrghomes.com. I got your note and will get back to you shortly.',
+      ]
+  ).concat([
     '',
     'Feel free to reply to this email or call us anytime at +1 (408) 493-0632.',
     '',
-    '\u2014 Ryan LaRocca',
+    '— Ryan LaRocca',
     'LRG Homes',
     '+1 (408) 493-0632',
     'info@lrghomes.com',
-  ].join('\n');
+  ]).join('\n');
 
   const emailToLead = sendEmail({
     to: cleanEmail,
@@ -318,33 +356,37 @@ module.exports = async function handler(req, res) {
 
   // ── 3. Google Sheets logging ────────────────────────────────────────────────
   const sheetsLog = logToSheets({
-    timestamp,
     fullName,
     email: cleanEmail,
     phone: cleanPhone,
     address: cleanAddress,
-    propertyType: propertyType || '',
+    notes: [aboutLabel, message].filter(Boolean).join(' — '),
     source: leadSource,
   }).catch((err) => {
     console.error('[submit-lead] Sheets log error:', err.message);
     return false;
   });
 
-  // ── 4. SMS to lead ──────────────────────────────────────────────────────────
-  const smsToLead = sendSms(
-    cleanPhone,
-    `Hey ${firstName}, thanks for reaching out to LRG Homes! We're taking a look at your property and will be in touch shortly. In the meantime, when are you planning to make the move? \u2014 Ryan +1 (408) 493-0632`
-  ).catch((err) => {
-    console.error('[submit-lead] SMS to lead error:', err.message);
-    return false;
-  });
+  // ── 4. SMS to lead — only with consent, only for sellers ────────────────────
+  const smsToLead = (isSeller && smsConsent)
+    ? sendSms(
+        cleanPhone,
+        `Hey ${firstName}, thanks for reaching out to LRG Homes! We're taking a look at your property and will be in touch shortly. In the meantime, when are you planning to make the move? — Ryan +1 (408) 493-0632`
+      ).catch((err) => {
+        console.error('[submit-lead] SMS to lead error:', err.message);
+        return false;
+      })
+    : Promise.resolve(false);
 
-  // Supabase CRMS logging (runs in parallel with the others)
+  // ── 5. Supabase CRMS logging (runs in parallel with the others) ─────────────
   const supabaseLog = logToSupabase({
     fullName,
     email: cleanEmail,
     phone: cleanPhone,
     address: cleanAddress,
+    about,
+    message,
+    enrollDrip: isSeller && smsConsent,
   }).catch((err) => {
     console.error('[submit-lead] Supabase log error:', err.message);
     return false;

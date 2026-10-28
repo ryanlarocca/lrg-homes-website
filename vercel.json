@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/ryan-larocca", "destination": "/about", "permanent": true },
+    { "source": "/ryan", "destination": "/about", "permanent": true }
+  ],
   "functions": {
     "api/submit-lead.js": {
       "maxDuration": 15

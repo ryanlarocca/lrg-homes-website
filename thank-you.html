@@ -3,109 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thank You — LRG Homes</title>
+  <title>Got it — LRG Homes</title>
   <meta name="robots" content="noindex" />
+  <script>(function(){try{if(localStorage.getItem('lrg-look')==='night'){document.documentElement.setAttribute('data-theme','night')}}catch(e){}})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) + conversion -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11434036654"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'AW-11434036654');
-    // Google Remarketing
-    gtag('config', 'AW-11434036654', {'send_page_view': true});
-    // Fire conversion event on thank-you page load
-    gtag('event', 'conversion', {'send_to': 'AW-11434036654/j2ZECKrh_IYcEK6blswq'});
+    gtag('event', 'conversion', { send_to: 'AW-11434036654/j2ZECKrh_IYcEK6blswq' });
   </script>
-
   <!-- Facebook Pixel -->
   <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '2287230658217255');
     fbq('track', 'PageView');
     fbq('track', 'Lead');
   </script>
-  <noscript>
-    <img height="1" width="1" style="display:none"
-         src="https://www.facebook.com/tr?id=2287230658217255&ev=Lead&noscript=1" />
-  </noscript>
-  <style>
-    .ty-section {
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .ty-card {
-      max-width: 560px;
-    }
-    .ty-icon {
-      font-size: 4rem;
-      margin-bottom: 20px;
-    }
-    .ty-card h1 {
-      font-size: 2.2rem;
-      margin-bottom: 16px;
-    }
-    .ty-card p {
-      font-size: 1.1rem;
-      color: #555;
-      margin-bottom: 12px;
-    }
-    .ty-card .btn-hero {
-      display: inline-block;
-      margin-top: 24px;
-    }
-  </style>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=2287230658217255&ev=PageView&noscript=1" alt="" /></noscript>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo"><img src="assets/images/lrg-logo-white.png" alt="LRG Homes" /></a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
+    <a href="index.html" class="nav-logo" aria-label="LRG Homes home"><span class="wordmark">LRG Homes</span></a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     <div class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About Us</a>
-      <a href="blog.html">Blog</a>
+      <a href="index.html#stories">The houses</a>
+      <a href="index.html#reviews">Reviews</a>
+      <a href="about.html">About Ryan</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="tel:+16506703914">(650) 670-3914</a>
     </div>
   </div>
 </nav>
 
-<section class="ty-section">
-  <div class="ty-card">
-    <div class="ty-icon">✅</div>
-    <h1>We Got Your Request!</h1>
-    <p>Thanks for reaching out. We're reviewing your information now and will be in touch within 24 hours.</p>
-    <p>Have questions in the meantime? Call or text us at <strong>(650) 670-3914</strong>.</p>
-    <a href="index.html" class="btn-hero">← Back to Home</a>
+<section class="section">
+  <div class="container">
+    <div class="ty-card">
+      <div class="eyebrow">Message received</div>
+      <h1>Got it — thank you.</h1>
+      <p>I'll be in touch within one business day. If it's urgent, call or text <a href="tel:+16506703914"><strong>(650) 670-3914</strong></a>.</p>
+      <p><a href="index.html" class="btn btn-ghost">Back to the home page</a></p>
+    </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
     <div class="footer-brand">
-      <a href="index.html" class="nav-logo"><img src="assets/images/lrg-logo-white.png" alt="LRG Homes" /></a>
-      <p>Bay Area's trusted cash home buyer.</p>
+      <img src="assets/images/lrg-logo-white.png" alt="LRG Homes" />
+      <p>LRG Homes LLC · San Jose, California.</p>
     </div>
     <div>
       <h4>Contact</h4>
-      <a href="tel:6506703914">(650) 670-3914</a>
+      <a href="tel:+16506703914">(650) 670-3914</a>
       <a href="mailto:info@lrghomes.com">info@lrghomes.com</a>
     </div>
   </div>
@@ -115,9 +74,7 @@
 </footer>
 
 <script>
-  document.getElementById('navToggle').addEventListener('click', function() {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+  document.getElementById('navToggle').addEventListener('click', function () { document.getElementById('navLinks').classList.toggle('open'); });
 </script>
 </body>
 </html>
