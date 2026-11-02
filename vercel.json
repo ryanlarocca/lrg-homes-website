@@ -7,7 +7,7 @@
   ],
   "functions": {
     "api/submit-lead.js": {
-      "maxDuration": 15
+      "maxDuration": 30
     }
   }
 }

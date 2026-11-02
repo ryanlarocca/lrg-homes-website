@@ -1,21 +1,23 @@
 /**
  * api/submit-lead.js
- * Vercel serverless endpoint — no Mac mini, no tunnels.
+ * Vercel serverless endpoint for the lrghomes.com contact form.
  *
- * On form submission:
- *   1. Sends SMS to Ryan via Twilio
- *   2. Sends confirmation email to lead via Gmail API (OAuth2)
- *   3. Logs lead to Google Sheets via Sheets API (OAuth2)
- *   4. Sends SMS to lead via Twilio — only when they ticked the text consent box
- *   5. Writes the lead to the CRMS leads table (Supabase)
+ * Website leads are call-first (Ryan, 2026-11-02). Mission Control owns
+ * everything after the submit — the lead row, the mailing-list match, the
+ * Telegram alert with a Call button, the "I'll call you in a few minutes"
+ * text (texts-OK only), the confirmation email, and the call reminders.
+ * This endpoint:
+ *   1. Hands the lead to Mission Control (POST /api/leads/website-form,
+ *      x-website-secret = WEBSITE_FORM_SECRET).
+ *   2. Logs the lead to Google Sheets (unchanged).
+ *   3. Only if Mission Control is unreachable: writes the lead to Supabase
+ *      itself and texts Ryan's cell so nobody is lost.
  *
- * The form asks what the visit is about: "sell" (a seller), "deal" (an
- * agent or wholesaler with a property), or "other". Only a seller who
- * also ticked the text-consent box is enrolled in the automatic text
- * follow-up — an agent or a curious visitor never gets seller texts
- * (Ryan, 2026-10-27).
+ * Before 2026-11-02 this file texted its alert to the Office — Info line,
+ * which Mission Control drops as one of our own numbers — so website leads
+ * reached nobody.
  *
- * Auth: OAuth2 with refresh token (info@lrghomes.com account)
+ * Auth for Sheets: OAuth2 with refresh token (info@lrghomes.com account).
  * Always returns 200 regardless of downstream failures.
  */
 
@@ -87,52 +89,6 @@ function normalizePhone(phone) {
   return null;
 }
 
-// ─── Gmail API (OAuth2 as info@lrghomes.com) ──────────────────────────────────
-
-function buildRawEmail({ to, from, subject, textBody }) {
-  const lines = [
-    `From: ${from}`,
-    `To: ${to}`,
-    `Subject: ${subject}`,
-    'MIME-Version: 1.0',
-    'Content-Type: text/plain; charset=UTF-8',
-    '',
-    textBody,
-  ];
-  const raw = lines.join('\r\n');
-  return Buffer.from(raw)
-    .toString('base64')
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
-}
-
-async function sendEmail({ to, subject, textBody }) {
-  if (!to) {
-    console.warn('[submit-lead] No email address — skipping confirmation email');
-    return false;
-  }
-
-  const sender = process.env.GMAIL_SENDER || 'info@lrghomes.com';
-
-  try {
-    const auth = getOAuth2Client();
-    const gmail = google.gmail({ version: 'v1', auth });
-
-    const raw = buildRawEmail({ to, from: sender, subject, textBody });
-    await gmail.users.messages.send({
-      userId: 'me',
-      requestBody: { raw },
-    });
-
-    console.log(`[submit-lead] Confirmation email sent to ${to}`);
-    return true;
-  } catch (err) {
-    console.error('[submit-lead] Gmail API error:', err.message);
-    return false;
-  }
-}
-
 // ─── Google Sheets API (OAuth2) ───────────────────────────────────────────────
 
 async function logToSheets({ fullName, email, phone, address, notes, source }) {
@@ -178,7 +134,7 @@ async function logToSheets({ fullName, email, phone, address, notes, source }) {
 
 // ─── Supabase (CRMS leads table) ──────────────────────────────────────────────
 
-async function logToSupabase({ fullName, email, phone, address, about, message, enrollDrip }) {
+async function logToSupabase({ fullName, email, phone, address, about, message, smsConsent }) {
   const url = process.env.LRG_SUPABASE_URL;
   const key = process.env.LRG_SUPABASE_SERVICE_KEY;
   if (!url || !key) {
@@ -203,17 +159,16 @@ async function logToSupabase({ fullName, email, phone, address, about, message, 
     source: 'Website',
     source_type: 'website',
     lead_type: 'form',
+    // The Website line — the form is the lead talking (inbound), and the
+    // card's Call / text buttons resolve to the line they know.
+    twilio_number: '+16506703914',
     status: 'new',
+    sms_consent: smsConsent,
+    // Mission Control's 5-minute sweep picks this up and runs the call
+    // reminders even though its intake route never saw the lead.
+    website_ladder: about === 'sell' ? 'calling' : null,
     message: [`[Website form · ${ABOUT_LABELS[about] || about}]`, message].filter(Boolean).join(' '),
   };
-  if (enrollDrip) {
-    // Seller + text consent: the AI-drafted form cadence picks up from
-    // touch 1 (google_ads_form is the cadence's name, not its source).
-    row.drip_campaign_type = 'google_ads_form';
-    row.drip_touch_number = 0;
-    row.last_drip_sent_at = new Date().toISOString();
-  }
-
   try {
     const response = await fetch(`${url}/rest/v1/leads`, {
       method: 'POST',
@@ -231,11 +186,45 @@ async function logToSupabase({ fullName, email, phone, address, about, message, 
       console.error(`[submit-lead] Supabase insert failed ${response.status}: ${errText}`);
       return false;
     }
-    console.log(`[submit-lead] Lead logged to Supabase CRMS (drip: ${enrollDrip ? 'yes' : 'no'})`);
+    console.log('[submit-lead] Lead logged to Supabase CRMS (fallback)');
     return true;
   } catch (err) {
     console.error('[submit-lead] Supabase error:', err.message);
     return false;
+  }
+}
+
+// ─── Mission Control hand-off ─────────────────────────────────────────────────
+
+const MC_BASE = 'https://mission-control-three-chi.vercel.app';
+
+async function sendToMissionControl(payload) {
+  const secret = (process.env.WEBSITE_FORM_SECRET || '').trim();
+  if (!secret) {
+    console.error('[submit-lead] WEBSITE_FORM_SECRET not set — cannot reach Mission Control');
+    return false;
+  }
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 12000);
+  try {
+    const res = await fetch(`${MC_BASE}/api/leads/website-form`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-website-secret': secret },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal,
+    });
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      console.error(`[submit-lead] Mission Control ${res.status}:`, json.error || '');
+      return false;
+    }
+    console.log('[submit-lead] Mission Control took the lead:', JSON.stringify(json));
+    return true;
+  } catch (err) {
+    console.error('[submit-lead] Mission Control unreachable:', err.message);
+    return false;
+  } finally {
+    clearTimeout(timer);
   }
 }
 
@@ -286,122 +275,65 @@ module.exports = async function handler(req, res) {
 
   const cleanPhone = phone.trim();
   const cleanEmail = email ? email.trim() : '';
-  const firstName = fullName.split(' ')[0];
-  const isSeller = about === 'sell';
 
-  // ── 0. Fire Mac mini for AppleScript SMS (temp until Twilio A2P approved) ──
-  const macMiniUrl = process.env.MAC_MINI_LEAD_WEBHOOK_URL;
-  const macSecret = process.env.MAC_MINI_WEBHOOK_SECRET;
-  if (macMiniUrl) {
-    fetch(`${macMiniUrl}/lead`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'ngrok-skip-browser-warning': 'true',
-        'Bypass-Tunnel-Reminder': 'true',
-        ...(macSecret ? { 'x-webhook-secret': macSecret } : {}),
-      },
-      body: JSON.stringify({ fullName, email: cleanEmail, phone: cleanPhone, address: cleanAddress, propertyType: aboutLabel }),
-    }).catch((err) => console.error('[submit-lead] Mac mini SMS error:', err.message));
-  }
-
-  // ── 1. SMS to Ryan ──────────────────────────────────────────────────────────
-  const smsToRyan = sendSms(
-    '+14084930632',
-    [
-      `🔔 WEBSITE — ${aboutLabel}`,
-      `Name: ${fullName}`,
-      `Phone: ${cleanPhone}`,
-      cleanAddress ? `Address: ${cleanAddress}` : null,
-      message ? `Note: ${message.slice(0, 200)}` : null,
-      `Texts OK: ${smsConsent ? 'yes' : 'no'}`,
-    ].filter(Boolean).join('\n')
-  ).catch((err) => {
-    console.error('[submit-lead] SMS to Ryan error:', err.message);
-    return false;
-  });
-
-  // ── 2. Confirmation email to lead ───────────────────────────────────────────
-  const emailBody = (isSeller
-    ? [
-        `Hey ${firstName},`,
-        '',
-        'Thanks for reaching out. We will be taking a look at the property and getting back to you as soon as possible.',
-        '',
-        'In the meantime, could you let us know when you are planning to make the move? That will help us put together the best offer for you.',
-      ]
-    : [
-        `Hey ${firstName},`,
-        '',
-        'Thanks for reaching out through lrghomes.com. I got your note and will get back to you shortly.',
-      ]
-  ).concat([
-    '',
-    'Feel free to reply to this email or call us anytime at +1 (408) 493-0632.',
-    '',
-    '— Ryan LaRocca',
-    'LRG Homes',
-    '+1 (408) 493-0632',
-    'info@lrghomes.com',
-  ]).join('\n');
-
-  const emailToLead = sendEmail({
-    to: cleanEmail,
-    subject: `Thanks for reaching out, ${firstName}!`,
-    textBody: emailBody,
-  }).catch((err) => {
-    console.error('[submit-lead] Email to lead error:', err.message);
-    return false;
-  });
-
-  // ── 3. Google Sheets logging ────────────────────────────────────────────────
-  const sheetsLog = logToSheets({
-    fullName,
-    email: cleanEmail,
-    phone: cleanPhone,
-    address: cleanAddress,
-    notes: [aboutLabel, message].filter(Boolean).join(' — '),
-    source: leadSource,
-  }).catch((err) => {
-    console.error('[submit-lead] Sheets log error:', err.message);
-    return false;
-  });
-
-  // ── 4. SMS to lead — only with consent, only for sellers ────────────────────
-  const smsToLead = (isSeller && smsConsent)
-    ? sendSms(
-        cleanPhone,
-        `Hey ${firstName}, thanks for reaching out to LRG Homes! We're taking a look at your property and will be in touch shortly. In the meantime, when are you planning to make the move? — Ryan +1 (408) 493-0632`
-      ).catch((err) => {
-        console.error('[submit-lead] SMS to lead error:', err.message);
-        return false;
-      })
-    : Promise.resolve(false);
-
-  // ── 5. Supabase CRMS logging (runs in parallel with the others) ─────────────
-  const supabaseLog = logToSupabase({
-    fullName,
-    email: cleanEmail,
-    phone: cleanPhone,
-    address: cleanAddress,
-    about,
-    message,
-    enrollDrip: isSeller && smsConsent,
-  }).catch((err) => {
-    console.error('[submit-lead] Supabase log error:', err.message);
-    return false;
-  });
-
-  // Wait for all in parallel
-  const [sms, emailSent, sheets, smsLead, supabase] = await Promise.all([
-    smsToRyan,
-    emailToLead,
-    sheetsLog,
-    smsToLead,
-    supabaseLog,
+  // ── 1. Mission Control (alert, texts, email, call reminders) + Sheets ────
+  const [mc, sheets] = await Promise.all([
+    sendToMissionControl({
+      fullName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      address: cleanAddress,
+      about,
+      message,
+      smsConsent,
+    }),
+    logToSheets({
+      fullName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      address: cleanAddress,
+      notes: [aboutLabel, message].filter(Boolean).join(' — '),
+      source: leadSource,
+    }).catch((err) => {
+      console.error('[submit-lead] Sheets log error:', err.message);
+      return false;
+    }),
   ]);
 
-  const results = { sms, email: emailSent, sheets, smsLead, supabase };
+  // ── 2. Fallback — Mission Control didn't take it: save the lead and text
+  // Ryan's cell (never the office line: Mission Control drops texts from
+  // our own numbers, which is how website leads went missing).
+  let supabase = null;
+  let ryanSms = null;
+  if (!mc) {
+    supabase = await logToSupabase({
+      fullName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      address: cleanAddress,
+      about,
+      message,
+      smsConsent,
+    }).catch((err) => {
+      console.error('[submit-lead] Supabase log error:', err.message);
+      return false;
+    });
+    ryanSms = await sendSms(
+      '+14085006293',
+      [
+        `⚠️ WEBSITE LEAD — Mission Control didn't respond, call them yourself`,
+        `${fullName} · ${cleanPhone}`,
+        cleanAddress || null,
+        message ? `"${message.slice(0, 200)}"` : null,
+        `Saved to CRMS: ${supabase ? 'yes' : 'NO'}`,
+      ].filter(Boolean).join('\n')
+    ).catch((err) => {
+      console.error('[submit-lead] SMS to Ryan error:', err.message);
+      return false;
+    });
+  }
+
+  const results = { missionControl: mc, sheets, supabase, ryanSms };
   console.log(`[submit-lead] ${timestamp} — Results:`, results);
 
   return res.status(200).json({
