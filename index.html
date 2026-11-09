@@ -59,7 +59,8 @@
     "sameAs": [
       "https://www.yelp.com/biz/ryan-larocca-lrg-homes-san-jose",
       "https://www.facebook.com/lrghomesbayarea/",
-      "https://www.linkedin.com/in/ryanlarocca"
+      "https://www.linkedin.com/in/ryanlarocca",
+      "https://www.youtube.com/@lrghomes"
     ]
   }
   </script>
@@ -88,6 +89,7 @@
     <div class="nav-links" id="navLinks">
       <a href="#stories">The houses</a>
       <a href="#reviews">Reviews</a>
+      <a href="videos.html">Videos</a>
       <a href="about.html">About Ryan</a>
       <a href="how-it-works.html">How it works</a>
       <a href="tel:+16506703914">(650) 670-3914</a>
@@ -214,6 +216,11 @@
           <div class="tt-msg out"><p>Thanks Mark! Yes it was a big project but I'm happy with how it all turned out 👍</p></div>
           <figcaption>A text from the family after they saw the finished house.</figcaption>
         </figure>
+        <a class="video-slot story-video" href="videos/limewood.html" data-video="assets/videos/limewood.mp4" aria-label="Play: Limewood, start to finish">
+          <img src="assets/images/videos/limewood-poster.jpg" alt="The finished Limewood kitchen" loading="lazy" />
+          <span class="play"><svg><use href="#i-play"/></svg></span>
+        </a>
+        <p class="story-video-more"><strong>Watch the whole project</strong>, start to finish (4½ min) · <a href="videos/limewood.html">Chapters</a> · <a href="videos.html">More videos</a></p>
       </div>
     </article>
 
@@ -402,6 +409,7 @@
       <h4>Explore</h4>
       <a href="#stories">The houses</a>
       <a href="#reviews">Reviews</a>
+      <a href="videos.html">Videos</a>
       <a href="about.html">About Ryan</a>
       <a href="how-it-works.html">How it works</a>
       <a href="blog.html">Guides</a>
@@ -417,6 +425,7 @@
       <a href="https://www.yelp.com/biz/ryan-larocca-lrg-homes-san-jose" target="_blank" rel="noopener">Yelp</a>
       <a href="https://www.linkedin.com/in/ryanlarocca" target="_blank" rel="noopener">LinkedIn</a>
       <a href="https://www.facebook.com/lrghomesbayarea/" target="_blank" rel="noopener">Facebook</a>
+      <a href="https://www.youtube.com/@lrghomes" target="_blank" rel="noopener">YouTube</a>
     </div>
   </div>
   <div class="footer-bottom">
@@ -435,18 +444,6 @@
     a.addEventListener('click', function () { document.getElementById('navLinks').classList.remove('open'); });
   });
 
-
-  // Video slots: play inline when a source is set, otherwise do nothing yet.
-  document.querySelectorAll('.video-slot').forEach(function (slot) {
-    slot.addEventListener('click', function (e) {
-      e.preventDefault();
-      var src = slot.getAttribute('data-video');
-      if (!src) return;
-      var v = document.createElement('video');
-      v.src = src; v.controls = true; v.autoplay = true; v.playsInline = true;
-      slot.innerHTML = ''; slot.appendChild(v); slot.classList.add('playing');
-    });
-  });
 
   // Form: show the address field for sellers/deals, consent only for sellers.
   (function () {
@@ -479,5 +476,6 @@
     });
   })();
 </script>
+<script src="video.js"></script>
 </body>
 </html>
