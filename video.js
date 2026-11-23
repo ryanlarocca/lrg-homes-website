@@ -118,24 +118,44 @@ document.querySelectorAll('.video-slot.has-player').forEach(function (slot) {
   // Some phones refuse the file when the built-in media loader asks for it, although the page itself can fetch it.
   // Rescue: fetch the small copy ourselves and hand the player the bytes. Also reports what the phone says it can play.
   var rescued = false;
+  // Can this phone open a given file at all? Resolves 'ok' (metadata read), 'err<code>' or 'timeout'.
+  function probe(url, muted) {
+    return new Promise(function (done) {
+      var t = document.createElement('video'), fin = false;
+      function end(r) { if (fin) return; fin = true; try { t.removeAttribute('src'); t.load(); } catch (e) {} done(r); }
+      t.muted = !!muted; t.playsInline = true; t.setAttribute('playsinline', ''); t.preload = 'metadata';
+      t.addEventListener('loadedmetadata', function () { end('ok'); });
+      t.addEventListener('error', function () { end('err' + ((t.error && t.error.code) || 0)); });
+      setTimeout(function () { end('timeout'); }, 6000);
+      t.src = url; t.load();
+    });
+  }
+  function use(url, muted) {
+    Array.prototype.forEach.call(v.querySelectorAll('source'), function (x) { x.remove(); });
+    v.muted = !!muted; v.src = url; v.load();
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function (err) { if (id) VT.note(id, 'blocked', 1, 'after rescue ' + ((err && err.name) || '') + ' ' + state()); });
+  }
   function rescue() {
     if (rescued) return; rescued = true;
     var small = (srcs[0] && srcs[0].getAttribute('src')) || '';
+    var safe = slot.getAttribute('data-video-safe') || '';
+    var other = slot.getAttribute('data-video-probe') || '';
     var can = '';
-    try { can = 'mp4:' + v.canPlayType('video/mp4') + ' avc:' + v.canPlayType('video/mp4; codecs="avc1.64001f, mp4a.40.2"') + ' base:' + v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"'); } catch (e) {}
-    if (!small || !window.fetch) { if (id) VT.note(id, 'diag', 0, can + ' no-fetch'); return; }
-    fetch(small).then(function (r) {
-      var info = can + ' http:' + r.status + ' type:' + (r.headers.get('content-type') || '') + ' redir:' + r.redirected;
-      return r.blob().then(function (bl) {
-        if (id) VT.note(id, 'diag', 0, info + ' bytes:' + bl.size);
-        if (!r.ok || bl.size < 100000) return;
-        Array.prototype.forEach.call(v.querySelectorAll('source'), function (x) { x.remove(); });
-        v.src = URL.createObjectURL(bl);
-        v.load();
-        var pr = v.play();
-        if (pr && pr.catch) pr.catch(function (err) { if (id) VT.note(id, 'blocked', 1, 'after rescue ' + ((err && err.name) || '') + ' ' + state()); });
+    try { can = 'avc:' + v.canPlayType('video/mp4; codecs="avc1.64001f, mp4a.40.2"') + ' main:' + v.canPlayType('video/mp4; codecs="avc1.4D401F, mp4a.40.2"'); } catch (e) {}
+    var res = {};
+    probe(small, false).then(function (r) { res.small = r; return probe(small, true); })
+      .then(function (r) { res.smallMuted = r; return safe ? probe(safe, false) : 'none'; })
+      .then(function (r) { res.safe = r; return safe ? probe(safe, true) : 'none'; })
+      .then(function (r) { res.safeMuted = r; return other ? probe(other, true) : 'none'; })
+      .then(function (r) {
+        res.other = r;
+        if (id) VT.note(id, 'diag', 0, can + ' small:' + res.small + ' smallMuted:' + res.smallMuted + ' safe:' + res.safe + ' safeMuted:' + res.safeMuted + ' other:' + res.other);
+        if (res.small === 'ok') use(small, false);
+        else if (res.safe === 'ok') use(safe, false);
+        else if (res.smallMuted === 'ok') use(small, true);
+        else if (res.safeMuted === 'ok') use(safe, true);
       });
-    }).catch(function (err) { if (id) VT.note(id, 'diag', 0, can + ' fetch-failed ' + ((err && err.message) || '')); });
   }
   function start() {
     slot.classList.add('playing');
