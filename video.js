@@ -6,7 +6,7 @@ var VT = (function () {
   var sent = {}, played = false, furthest = 0, sid = null;
   try { sid = sessionStorage.getItem('lrg-vsid'); if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('lrg-vsid', sid); } } catch (e) { sid = Math.random().toString(36).slice(2); }
   function send(id, name, quartile, detail) {
-    var key = id + ':' + name;
+    var key = id + ':' + name + (name === 'diag' || name === 'blocked' || name === 'error' ? ':' + (detail || '').slice(0, 24) : '');
     if (sent[key]) return;
     sent[key] = true;
     var payload = { video_id: id, event: name, quartile: quartile || 0, played: played, path: location.pathname, referrer: document.referrer || '', vw: window.innerWidth, sid: sid, detail: detail || '' };
@@ -113,7 +113,29 @@ document.querySelectorAll('.video-slot.has-player').forEach(function (slot) {
     VT.watch(id, v);
     v.addEventListener('error', function () { VT.note(id, 'error', (v.error && v.error.code) || 0, ((v.error && v.error.message) || '') + ' ' + state()); });
     var srcs = v.querySelectorAll('source');
-    if (srcs.length) srcs[srcs.length - 1].addEventListener('error', function () { VT.note(id, 'error', 0, 'no playable source ' + state()); });
+    if (srcs.length) srcs[srcs.length - 1].addEventListener('error', function () { VT.note(id, 'error', 0, 'no playable source ' + state()); rescue(); });
+  }
+  // Some phones refuse the file when the built-in media loader asks for it, although the page itself can fetch it.
+  // Rescue: fetch the small copy ourselves and hand the player the bytes. Also reports what the phone says it can play.
+  var rescued = false;
+  function rescue() {
+    if (rescued) return; rescued = true;
+    var small = (srcs[0] && srcs[0].getAttribute('src')) || '';
+    var can = '';
+    try { can = 'mp4:' + v.canPlayType('video/mp4') + ' avc:' + v.canPlayType('video/mp4; codecs="avc1.64001f, mp4a.40.2"') + ' base:' + v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"'); } catch (e) {}
+    if (!small || !window.fetch) { if (id) VT.note(id, 'diag', 0, can + ' no-fetch'); return; }
+    fetch(small).then(function (r) {
+      var info = can + ' http:' + r.status + ' type:' + (r.headers.get('content-type') || '') + ' redir:' + r.redirected;
+      return r.blob().then(function (bl) {
+        if (id) VT.note(id, 'diag', 0, info + ' bytes:' + bl.size);
+        if (!r.ok || bl.size < 100000) return;
+        Array.prototype.forEach.call(v.querySelectorAll('source'), function (x) { x.remove(); });
+        v.src = URL.createObjectURL(bl);
+        v.load();
+        var pr = v.play();
+        if (pr && pr.catch) pr.catch(function (err) { if (id) VT.note(id, 'blocked', 1, 'after rescue ' + ((err && err.name) || '') + ' ' + state()); });
+      });
+    }).catch(function (err) { if (id) VT.note(id, 'diag', 0, can + ' fetch-failed ' + ((err && err.message) || '')); });
   }
   function start() {
     slot.classList.add('playing');
