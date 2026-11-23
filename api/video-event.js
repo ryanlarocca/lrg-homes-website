@@ -5,7 +5,7 @@
  * if the table is missing or Supabase is down the event is just dropped (logged to the function console).
  */
 
-const EVENTS = ['play', 'progress_25', 'progress_50', 'progress_75', 'complete', 'call_tap'];
+const EVENTS = ['play', 'progress_25', 'progress_50', 'progress_75', 'complete', 'call_tap', 'error', 'blocked'];
 const BOT_RE = /bot|crawl|spider|slurp|headless|lighthouse|pingdom|monitor|preview|curl|wget|python|node-fetch|axios|go-http/i;
 
 function clean(v, max) {

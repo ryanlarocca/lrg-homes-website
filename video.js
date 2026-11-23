@@ -29,7 +29,8 @@ var VT = (function () {
     el.addEventListener('ended', function () { furthest = 100; send(id, 'complete', 100); });
   }
   function callTap(id) { send(id, 'call_tap', furthest); }
-  return { watch: watch, callTap: callTap };
+  function note(id, name, code) { send(id, name, code); }   // 'error' (media error code) / 'blocked' (the phone refused to start it)
+  return { watch: watch, callTap: callTap, note: note };
 })();
 document.querySelectorAll('[data-video-call]').forEach(function (a) {
   a.addEventListener('click', function () { VT.callTap(a.getAttribute('data-video-call')); });
@@ -66,14 +67,20 @@ document.querySelectorAll('.video-slot[data-youtube], .video-slot[data-video]').
       }
       var vid = slot.getAttribute('data-video-id');
       if (vid) VT.watch(vid, el);
-      var go = function () { var pr = el.play(); if (pr && pr.catch) pr.catch(function () {}); };
-      el.preload = 'auto'; go();
+      el.preload = 'auto';
+      if (vid) el.addEventListener('error', function () { VT.note(vid, 'error', (el.error && el.error.code) || 0); });
     }
     var box = document.createElement('div');
     box.className = slot.className + ' playing';
     if (slot.id) box.id = slot.id;
     box.appendChild(el);
     slot.replaceWith(box);
+    // Start playback only once the player is on the page, still inside the tap. iPhones (Low Power Mode above all) refuse a
+    // play() made on an element that is not in the document yet and show a crossed-out play button instead.
+    if (el.tagName === 'VIDEO') {
+      var pr = el.play();
+      if (pr && pr.catch) pr.catch(function () { if (vid) VT.note(vid, 'blocked', 0); });
+    }
   });
 });
 // Chapter buttons on a video page: jump the player to that moment. ?t=<seconds> in the URL does the same on load.
