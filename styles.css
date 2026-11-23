@@ -187,7 +187,18 @@ html:not([data-theme="night"]) .footer-brand img { filter: invert(1); }
 .hero-grid {
   display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center;
 }
-@media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; gap: 36px; } .hero { padding: 48px 0 40px; } }
+.hero-grid { grid-template-areas: "head media" "body media"; row-gap: 0; }
+.hero-head { grid-area: head; align-self: end; }
+.hero-body { grid-area: body; align-self: start; }
+.hero-media { grid-area: media; align-self: center; }
+.hero-call { display: flex; justify-content: center; width: 100%; margin-top: 14px; }
+@media (max-width: 920px) {
+  .hero-grid { grid-template-columns: 1fr; grid-template-areas: "head" "media" "body"; gap: 0; }
+  .hero { padding: 32px 0 40px; }
+  .hero-head { margin-bottom: 20px; }
+  .hero-head h1 { font-size: clamp(1.7rem, 7vw, 2.1rem); margin-bottom: 0; }
+  .hero-body { margin-top: 28px; }
+}
 .hero h1 { margin-bottom: 20px; }
 .hero h1 em { font-style: italic; color: var(--accent); }
 .hero .lede { margin-bottom: 30px; max-width: 540px; }

@@ -8,6 +8,9 @@
   "functions": {
     "api/submit-lead.js": {
       "maxDuration": 30
+    },
+    "api/video-event.js": {
+      "maxDuration": 10
     }
   }
 }
