@@ -5,11 +5,11 @@
 var VT = (function () {
   var sent = {}, played = false, furthest = 0, sid = null;
   try { sid = sessionStorage.getItem('lrg-vsid'); if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('lrg-vsid', sid); } } catch (e) { sid = Math.random().toString(36).slice(2); }
-  function send(id, name, quartile) {
+  function send(id, name, quartile, detail) {
     var key = id + ':' + name;
     if (sent[key]) return;
     sent[key] = true;
-    var payload = { video_id: id, event: name, quartile: quartile || 0, played: played, path: location.pathname, referrer: document.referrer || '', vw: window.innerWidth, sid: sid };
+    var payload = { video_id: id, event: name, quartile: quartile || 0, played: played, path: location.pathname, referrer: document.referrer || '', vw: window.innerWidth, sid: sid, detail: detail || '' };
     try { if (typeof window.gtag === 'function') window.gtag('event', 'video_' + name, { video_id: id, quartile: payload.quartile, played: played }); } catch (e) {}
     try {
       var body = JSON.stringify(payload);
@@ -29,7 +29,7 @@ var VT = (function () {
     el.addEventListener('ended', function () { furthest = 100; send(id, 'complete', 100); });
   }
   function callTap(id) { send(id, 'call_tap', furthest); }
-  function note(id, name, code) { send(id, name, code); }   // 'error' (media error code) / 'blocked' (the phone refused to start it)
+  function note(id, name, code, detail) { send(id, name, code, detail); }   // 'error' (media error code) / 'blocked' (the phone refused to start it)
   return { watch: watch, callTap: callTap, note: note };
 })();
 document.querySelectorAll('[data-video-call]').forEach(function (a) {
@@ -102,3 +102,24 @@ document.querySelectorAll('[data-seek]').forEach(function (b) {
   var t = +(new URLSearchParams(location.search).get('t') || 0);
   if (t > 0) seekPlayer('player', t, false);
 })();
+
+// A player that is already in the page (.video-slot.has-player): the cover is a button; a tap hides it, shows the
+// native controls and starts the video inside that same tap. If the phone refuses, the native play button is there.
+document.querySelectorAll('.video-slot.has-player').forEach(function (slot) {
+  var v = slot.querySelector('video'), cover = slot.querySelector('.slot-cover'), id = slot.getAttribute('data-video-id');
+  if (!v) return;
+  function state() { return 'net' + v.networkState + ' ready' + v.readyState + ' src:' + (v.currentSrc || '').split('/').pop(); }
+  if (id) {
+    VT.watch(id, v);
+    v.addEventListener('error', function () { VT.note(id, 'error', (v.error && v.error.code) || 0, ((v.error && v.error.message) || '') + ' ' + state()); });
+    var srcs = v.querySelectorAll('source');
+    if (srcs.length) srcs[srcs.length - 1].addEventListener('error', function () { VT.note(id, 'error', 0, 'no playable source ' + state()); });
+  }
+  function start() {
+    slot.classList.add('playing');
+    v.controls = true;
+    var pr = v.play();
+    if (pr && pr.catch) pr.catch(function (err) { if (id) VT.note(id, 'blocked', 0, ((err && err.name) || '') + ' ' + state()); });
+  }
+  if (cover) cover.addEventListener('click', start);
+});

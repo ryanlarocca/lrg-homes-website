@@ -46,6 +46,7 @@ module.exports = async function handler(req, res) {
       referrer: clean(b.referrer, 300),
       viewport_w: Number.isFinite(vw) ? Math.max(0, Math.min(10000, Math.round(vw))) : null,
       session_id: clean(b.sid, 64),
+      detail: clean(b.detail, 300) || null,
       user_agent: ua.slice(0, 300),
       country: clean(String(req.headers['x-vercel-ip-country'] || ''), 2) || null,
     };
