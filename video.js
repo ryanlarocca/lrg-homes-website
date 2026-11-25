@@ -37,8 +37,7 @@ document.querySelectorAll('[data-video-call]').forEach(function (a) {
 });
 
 // Video slots. data-youtube="<id>": swap the thumbnail for the YouTube player on tap (YouTube only loads when someone
-// presses play). data-video="<file>": play a self-hosted file (data-video-small = 720p copy for phones; data-captions =
-// a WebVTT file, off until the viewer turns CC on). Neither set: do nothing yet.
+// presses play). data-video="<file>": play a self-hosted file (data-video-small = 720p copy for phones). Neither set: do nothing yet.
 document.querySelectorAll('.video-slot[data-youtube], .video-slot[data-video]').forEach(function (slot) {
   slot.addEventListener('click', function (e) {
     var yt = slot.getAttribute('data-youtube'), src = slot.getAttribute('data-video');
@@ -59,12 +58,7 @@ document.querySelectorAll('.video-slot[data-youtube], .video-slot[data-video]').
       el.controls = true; el.playsInline = true; el.setAttribute('playsinline', '');
       var poster = slot.getAttribute('data-poster'); if (poster) el.poster = poster;
       el.src = src;
-      var caps = slot.getAttribute('data-captions');
-      if (caps) {
-        var tr = document.createElement('track');
-        tr.kind = 'captions'; tr.srclang = 'en'; tr.label = 'English'; tr.src = caps;
-        el.appendChild(tr);
-      }
+      // No captions <track>: an attached captions file makes iPhone Safari refuse the whole video (tested 2026-11-24).
       var vid = slot.getAttribute('data-video-id');
       if (vid) VT.watch(vid, el);
       el.preload = 'auto';
