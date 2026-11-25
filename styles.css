@@ -498,7 +498,8 @@ html[data-theme="night"] .agents { background: var(--bg-2); border: 1px solid va
 .footer { background: var(--bg-2); border-top: 1px solid var(--line); color: var(--muted); padding: 56px 0 28px; }
 .footer-inner { max-width: var(--max); margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 36px; }
 @media (max-width: 820px) { .footer-inner { grid-template-columns: 1fr 1fr; } }
-@media (max-width: 520px) { .footer-inner { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px 20px; } .footer-brand { grid-column: 1 / -1; } .footer a { font-size: .88rem; } }
+.footer a + h4 { margin-top: 22px; }
 .footer-brand img { height: 44px; margin-bottom: 14px; }
 .footer-brand p { font-size: .9rem; max-width: 300px; line-height: 1.6; color: var(--muted); }
 .footer h4 { font-family: var(--sans); color: var(--ink); font-size: .78rem; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 14px; }
@@ -526,6 +527,18 @@ html[data-theme="night"] .agents { background: var(--bg-2); border: 1px solid va
 .post-hero-inner { max-width: 820px; margin: 0 auto; padding: 0 24px; }
 .post-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-bottom: 14px; }
 .post-meta { color: var(--muted); font-size: .9rem; }
+.post-meta a { color: var(--accent); font-weight: 600; }
+.related-guides { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 32px; }
+.related-guides h2 { font-size: 1.4rem; margin-bottom: 16px; }
+.related-list { display: grid; gap: 12px; }
+.related-list a { display: block; background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--card-shadow); transition: transform .2s; }
+.related-list a:hover { transform: translateY(-2px); }
+.related-list .blog-tag { margin-bottom: 8px; }
+.related-list strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.08rem; line-height: 1.35; color: var(--ink); }
+.related-how { margin-top: 18px; color: var(--ink-2); }
+.related-how a, .section-more a, .letter-more a { color: var(--accent); font-weight: 600; }
+.section-more { margin-top: 26px; }
+.letter-more { margin-top: 12px; font-size: .95rem; }
 .post-body { max-width: 820px; margin: 0 auto; padding: 24px 24px 72px; }
 .post-content h2 { margin: 40px 0 14px; font-size: 1.6rem; }
 .post-content h3 { margin: 28px 0 10px; }
