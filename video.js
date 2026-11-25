@@ -130,11 +130,16 @@ document.querySelectorAll('.video-slot.has-player').forEach(function (slot) {
       t.src = url; t.load();
     });
   }
-  function use(url, muted) {
+  // Hand the player one file; if it won't start (play refused or a media error), call next() once.
+  function use(url, muted, next) {
+    var failed = false;
+    function fail(why) { if (failed) return; failed = true; if (id) VT.note(id, 'blocked', 1, 'after rescue ' + why + ' ' + state()); if (next) next(); }
     Array.prototype.forEach.call(v.querySelectorAll('source'), function (x) { x.remove(); });
+    v.addEventListener('error', function () { fail('err' + ((v.error && v.error.code) || 0)); }, { once: true });
+    v.addEventListener('playing', function () { failed = true; }, { once: true });
     v.muted = !!muted; v.src = url; v.load();
     var pr = v.play();
-    if (pr && pr.catch) pr.catch(function (err) { if (id) VT.note(id, 'blocked', 1, 'after rescue ' + ((err && err.name) || '') + ' ' + state()); });
+    if (pr && pr.catch) pr.catch(function (err) { fail((err && err.name) || ''); });
   }
   function rescue() {
     if (rescued) return; rescued = true;
@@ -151,10 +156,13 @@ document.querySelectorAll('.video-slot.has-player').forEach(function (slot) {
       .then(function (r) {
         res.other = r;
         if (id) VT.note(id, 'diag', 0, can + ' small:' + res.small + ' smallMuted:' + res.smallMuted + ' safe:' + res.safe + ' safeMuted:' + res.safeMuted + ' other:' + res.other);
-        if (res.small === 'ok') use(small, false);
-        else if (res.safe === 'ok') use(safe, false);
-        else if (res.smallMuted === 'ok') use(small, true);
-        else if (res.safeMuted === 'ok') use(safe, true);
+        // Try every copy that opened, in order, until one actually plays.
+        var tries = [];
+        if (res.small === 'ok') tries.push([small, false]);
+        if (res.safe === 'ok') tries.push([safe, false]);
+        if (res.smallMuted === 'ok') tries.push([small, true]);
+        if (res.safeMuted === 'ok') tries.push([safe, true]);
+        (function go(i) { if (i < tries.length) use(tries[i][0], tries[i][1], function () { go(i + 1); }); })(0);
       });
   }
   function start() {
