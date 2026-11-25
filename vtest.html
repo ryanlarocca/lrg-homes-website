@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Video test</title>
+<style>
+  body { margin: 0; padding: 20px 16px 80px; background: #141312; color: #eee; font: 17px/1.45 -apple-system, system-ui, sans-serif; }
+  main { max-width: 480px; margin: 0 auto; }
+  h1 { font-size: 1.3rem; margin: 0 0 6px; }
+  p.how { color: #bbb; margin: 0 0 22px; }
+  section { margin: 0 0 30px; }
+  h2 { font-size: 1.05rem; margin: 0 0 8px; color: #d9a94f; }
+  .box { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; }
+  .box video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+  .cover { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; border: 0; padding: 0; background: #222 center / cover no-repeat; color: #fff; font: 600 1.1rem -apple-system, system-ui, sans-serif; cursor: pointer; }
+  .box.playing .cover { display: none; }
+  .st { margin-top: 8px; font-weight: 600; color: #aaa; }
+  .st.ok { color: #58d68d; } .st.bad { color: #ff6b6b; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Video test: 7 players</h1>
+  <p class="how">Tap play on each one, top to bottom. Give each a few seconds. Each shows PLAYS or FAILED underneath. That's it.</p>
+
+  <section data-t="1"><h2>1</h2><div class="box">
+    <video src="assets/videos/got-a-letter-720.mp4?v=2" poster="assets/images/got-a-letter-poster.jpg" controls preload="metadata" playsinline></video>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="2"><h2>2</h2><div class="box">
+    <video src="assets/videos/got-a-letter-720.mp4?v=2" poster="assets/images/got-a-letter-poster.jpg" controls preload="metadata" playsinline>
+      <track kind="captions" srclang="en" label="English" src="assets/videos/got-a-letter.en.vtt" />
+    </video>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="3"><h2>3</h2><div class="box">
+    <video src="assets/videos/got-a-letter-720.mp4?v=2" poster="assets/images/got-a-letter-poster.jpg" controls preload="none" playsinline></video>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="4"><h2>4</h2><div class="box">
+    <video poster="assets/images/got-a-letter-poster.jpg" controls preload="metadata" playsinline>
+      <source src="assets/videos/got-a-letter-720.mp4?v=2" type="video/mp4" media="(max-width: 920px)" />
+      <source src="assets/videos/got-a-letter.mp4?v=2" type="video/mp4" />
+    </video>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="5"><h2>5</h2><div class="box">
+    <video playsinline preload="none" poster="assets/images/got-a-letter-poster.jpg">
+      <source src="assets/videos/got-a-letter-720.mp4?v=2" type="video/mp4" media="(max-width: 920px)" />
+      <source src="assets/videos/got-a-letter.mp4?v=2" type="video/mp4" />
+      <track kind="captions" srclang="en" label="English" src="assets/videos/got-a-letter.en.vtt" />
+    </video>
+    <button type="button" class="cover" style="background-image:url(assets/images/got-a-letter-poster.jpg)">▶ Tap to play</button>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="6"><h2>6</h2><div class="box">
+    <video playsinline preload="none" poster="assets/images/videos/limewood-poster.jpg">
+      <source src="assets/videos/limewood-v2.mp4" type="video/mp4" media="(max-width: 920px)" />
+      <source src="assets/videos/limewood-v2.mp4?b=1" type="video/mp4" />
+      <track kind="captions" srclang="en" label="English" src="assets/videos/got-a-letter.en.vtt" />
+    </video>
+    <button type="button" class="cover" style="background-image:url(assets/images/videos/limewood-poster.jpg)">▶ Tap to play</button>
+  </div><div class="st">Tap play</div></section>
+
+  <section data-t="7"><h2>7</h2><div class="box">
+    <video src="assets/videos/got-a-letter-720.mp4?v=2" poster="assets/images/got-a-letter-poster.jpg" preload="metadata" playsinline></video>
+    <button type="button" class="cover" style="background-image:url(assets/images/got-a-letter-poster.jpg)">▶ Tap to play</button>
+  </div><div class="st">Tap play</div></section>
+</main>
+<script>
+(function () {
+  var sid; try { sid = sessionStorage.getItem('lrg-vsid'); if (!sid) { sid = Math.random().toString(36).slice(2) + Date.now().toString(36); sessionStorage.setItem('lrg-vsid', sid); } } catch (e) { sid = Math.random().toString(36).slice(2); }
+  function log(n, detail) {
+    try {
+      var body = JSON.stringify({ video_id: 'vtest-' + n, event: 'diag', quartile: 0, played: false, path: location.pathname, referrer: '', vw: window.innerWidth, sid: sid, detail: detail });
+      fetch('/api/video-event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, keepalive: true }).catch(function () {});
+    } catch (e) {}
+  }
+  var all = [];
+  document.querySelectorAll('section[data-t]').forEach(function (sec) {
+    var n = sec.getAttribute('data-t'), v = sec.querySelector('video'), st = sec.querySelector('.st'), box = sec.querySelector('.box'), cover = sec.querySelector('.cover');
+    var t0 = 0, done = false, trail = [];
+    all.push(v);
+    function state() { return 'net' + v.networkState + ' rdy' + v.readyState + ' src:' + (v.currentSrc || '').split('/').pop(); }
+    function ms() { return t0 ? (Date.now() - t0) + 'ms' : 'pre'; }
+    function finish(ok, why) {
+      if (done) return; done = true;
+      st.textContent = ok ? 'PLAYS' : 'FAILED';
+      st.className = 'st ' + (ok ? 'ok' : 'bad');
+      log(n, (ok ? 'OK ' : 'FAIL ') + why + ' | ' + state() + ' | ' + trail.join(',').slice(0, 150));
+    }
+    ['loadstart', 'loadedmetadata', 'loadeddata', 'canplay', 'play', 'playing', 'waiting', 'stalled', 'suspend', 'abort', 'emptied', 'pause'].forEach(function (name) {
+      v.addEventListener(name, function () {
+        if (name === 'play' && !t0) t0 = Date.now();
+        trail.push(name + '@' + ms());
+      });
+    });
+    v.addEventListener('timeupdate', function () {
+      if (v.currentTime > 1.5) finish(true, 'reached ' + v.currentTime.toFixed(1) + 's at ' + ms());
+    });
+    v.addEventListener('play', function () { all.forEach(function (o) { if (o !== v && !o.paused) { try { o.pause(); } catch (e) {} } }); });
+    v.addEventListener('error', function () { finish(false, 'media error ' + ((v.error && v.error.code) || 0) + ' ' + ((v.error && v.error.message) || '') + ' at ' + ms()); });
+    var srcs = v.querySelectorAll('source');
+    Array.prototype.forEach.call(srcs, function (s, i) {
+      s.addEventListener('error', function () { trail.push('source' + (i + 1) + 'err@' + ms()); if (i === srcs.length - 1) finish(false, 'no source would load at ' + ms()); });
+    });
+    v.addEventListener('play', function () { setTimeout(function () { finish(false, 'no picture after 12s, t=' + v.currentTime.toFixed(1)); }, 12000); }, { once: true });
+    if (cover) cover.addEventListener('click', function () {
+      box.classList.add('playing'); v.controls = true; t0 = Date.now();
+      var pr = v.play();
+      if (pr && pr.catch) pr.catch(function (err) { trail.push('playRejected:' + ((err && err.name) || '') + '@' + ms()); });
+    });
+  });
+  // Can the page itself fetch the file? (separate from the phone's video loader)
+  fetch('assets/videos/got-a-letter-720.mp4?v=2', { headers: { Range: 'bytes=0-99' } }).then(function (r) {
+    log('0', 'page fetch status ' + r.status + ' type ' + r.headers.get('content-type') + ' range ' + r.headers.get('content-range') + ' | saveData ' + (navigator.connection ? navigator.connection.saveData : 'n/a') + ' | visible ' + document.visibilityState);
+  }).catch(function (e) { log('0', 'page fetch FAILED ' + e); });
+})();
+</script>
+</body>
+</html>
